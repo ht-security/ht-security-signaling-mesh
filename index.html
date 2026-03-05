@@ -279,33 +279,33 @@ html, body {
 .act-msg.r { color:var(--c-red); }
 
 /* ══════════════════════════════════════════════
-   MOBILE RESPONSIVENESS (טלפון נייד בלבד)
+   MOBILE RESPONSIVENESS (טלפון נייד בלבד) - TACTICAL 2 COLUMNS
 ══════════════════════════════════════════════ */
 @media (max-width: 1024px) {
-  /* נעילת מסך מלאה - בלי גלילה מיותרת */
+  /* נעילת מסך מלאה למניעת גלילה של כל הדף - האפליקציה מתנהגת כמו נייטיב */
   html, body { overflow: hidden !important; height: 100dvh !important; width: 100vw !important; position: fixed !important; }
   
-  /* גריד שתי עמודות: שמאל (צ'אט) וימין (משתמשים - 140px) */
+  /* גריד קשיח של 2 עמודות: שמאל (צ'אט) וימין (משתמשים ברוחב 130 פיקסלים) */
   #app { 
     display: grid !important; 
     grid-template-rows: auto 1fr !important; 
-    grid-template-columns: 140px 1fr !important; 
+    grid-template-columns: 130px 1fr !important; 
     height: 100dvh !important; 
     min-height: unset !important; 
     overflow: hidden !important; 
   }
   
-  /* תפריט עליון פרוס על הכל */
-  .topbar { grid-column: 1 / -1 !important; padding: 10px; height: auto; flex-wrap: nowrap; justify-content: space-between; gap: 5px; }
+  /* תפריט עליון פרוס על כל הרוחב */
+  .topbar { grid-column: 1 / -1 !important; padding: 10px 15px !important; height: auto !important; flex-wrap: nowrap !important; justify-content: space-between !important; gap: 5px !important; }
   .metrics-bar { display: none !important; }
   .brand-ver { display: none !important; }
-  .brand-shield svg { width: 28px; height: 28px; }
-  .brand-name { font-size: 14px; letter-spacing: 2px; }
-  .topbar-right { gap: 8px; width: auto; }
-  .status-chip { padding: 4px 6px; font-size: 10px; }
-  .node-tag { font-size: 11px; }
+  .brand-shield svg { width: 28px !important; height: 28px !important; }
+  .brand-name { font-size: 14px !important; letter-spacing: 2px !important; }
+  .topbar-right { gap: 8px !important; width: auto !important; }
+  .status-chip { padding: 4px 6px !important; font-size: 10px !important; }
+  .node-tag { font-size: 11px !important; }
   
-  /* פאנל משתמשים (ימין - עמודה 1 בגלל RTL) */
+  /* פאנל משתמשים (ימין - עמודה 1) */
   .panel-left { 
     grid-column: 1 / 2 !important; 
     height: 100% !important; 
@@ -327,42 +327,42 @@ html, body {
     width: 100% !important;
   }
   
-  /* הסתרת לוגים כדי לא לחנוק את המסך */
+  /* הסתרת לוגים מיותרים במסך הקטן */
   .panel-right { display: none !important; }
   
   /* מסך התחברות */
-  .login-frame { width: 92%; max-width: 400px; clip-path: none !important; border-radius: 12px; }
-  .login-header { padding: 30px 20px 20px; }
-  .login-body { padding: 20px; }
-  .tac-input { font-size: 16px; padding: 14px; clip-path: none !important; border-radius: 8px; }
-  .tac-btn { font-size: 16px; padding: 16px; clip-path: none !important; border-radius: 8px; }
-  .enc-note { flex-direction: column; align-items: center; text-align: center; font-size: 12px; }
-  .enc-note svg { margin-bottom: 8px; }
+  .login-frame { width: 92% !important; max-width: 400px !important; clip-path: none !important; border-radius: 12px !important; }
+  .login-header { padding: 30px 20px 20px !important; }
+  .login-body { padding: 20px !important; }
+  .tac-input { font-size: 16px !important; padding: 14px !important; clip-path: none !important; border-radius: 8px !important; }
+  .tac-btn { font-size: 16px !important; padding: 16px !important; clip-path: none !important; border-radius: 8px !important; }
+  .enc-note { flex-direction: column !important; align-items: center !important; text-align: center !important; font-size: 12px !important; }
+  .enc-note svg { margin-bottom: 8px !important; }
   
   /* התאמות לצ'אט עצמו */
-  .cmd-bubble { max-width: 95%; font-size: 14px; padding: 10px; clip-path: none !important; border-radius: 12px; }
-  .cmd-row.out .cmd-bubble { border-radius: 12px 12px 0 12px; }
-  .cmd-row.in .cmd-bubble { border-radius: 12px 12px 12px 0; }
+  .cmd-bubble { max-width: 95% !important; font-size: 14px !important; padding: 10px !important; clip-path: none !important; border-radius: 12px !important; }
+  .cmd-row.out .cmd-bubble { border-radius: 12px 12px 0 12px !important; }
+  .cmd-row.in .cmd-bubble { border-radius: 12px 12px 12px 0 !important; }
   
-  /* הקלדה */
-  .input-zone, .bcast-zone { padding: 8px; gap: 6px; flex-wrap: nowrap; justify-content: flex-start; }
-  .inp-prompt, .bcast-prompt { display: none; }
-  .inp-field, .bcast-field { font-size: 14px; padding: 8px; min-width: 0; }
-  .inp-send-btn, .bcast-send-btn { padding: 8px; font-size: 12px; border-radius: 8px; clip-path: none !important; flex-shrink: 0; }
-  .inp-file-btn, .bcast-attach-btn { width: 36px; height: 36px; flex-shrink: 0; }
+  /* הקלדה - כפתורים בשורה אחת קבועה */
+  .input-zone, .bcast-zone { padding: 8px !important; gap: 6px !important; flex-wrap: nowrap !important; justify-content: flex-start !important; }
+  .inp-prompt, .bcast-prompt { display: none !important; }
+  .inp-field, .bcast-field { font-size: 14px !important; padding: 8px !important; min-width: 0 !important; flex: 1 !important; }
+  .inp-send-btn, .bcast-send-btn { padding: 8px !important; font-size: 12px !important; border-radius: 8px !important; clip-path: none !important; flex-shrink: 0 !important; }
+  .inp-file-btn, .bcast-attach-btn { width: 36px !important; height: 36px !important; flex-shrink: 0 !important; border-radius: 50% !important;}
   
   /* הקטנת אלמנטים בתפריט המשתמשים */
-  .panel-head { padding: 10px; }
-  .ph-label { font-size: 11px; letter-spacing: 2px; }
-  .ph-badge { font-size: 11px; padding: 2px 6px; }
-  .room-section { padding: 10px; }
-  .room-display { font-size: 13px; padding: 6px; }
-  .tac-btn-sm { font-size: 11px; padding: 6px 10px; }
-  .mic-block { padding: 8px 10px; gap: 8px; }
-  .mic-text { font-size: 11px; }
-  .nc-avatar { width: 36px; height: 36px; font-size: 14px; }
-  .nc-id { font-size: 13px; }
-  .nc-state { font-size: 10px; }
+  .panel-head { padding: 10px !important; }
+  .ph-label { font-size: 11px !important; letter-spacing: 2px !important; }
+  .ph-badge { font-size: 11px !important; padding: 2px 6px !important; }
+  .room-section { padding: 10px !important; }
+  .room-display { font-size: 13px !important; padding: 6px !important; }
+  .tac-btn-sm { font-size: 11px !important; padding: 6px 10px !important; }
+  .mic-block { padding: 8px 10px !important; gap: 8px !important; }
+  .mic-text { font-size: 11px !important; }
+  .nc-avatar { width: 36px !important; height: 36px !important; font-size: 14px !important; }
+  .nc-id { font-size: 13px !important; }
+  .nc-state { font-size: 10px !important; }
 }
 </style>
 </head>
@@ -537,7 +537,7 @@ html, body {
 <script>
 'use strict';
 
-// הכתובת הוגדרה כאן למעלה במשתנה מסודר:
+// הגדרת המשתנה של הכתובת פעם אחת בלבד
 const SIGNAL_URL = 'https://ht-security-signaling-mesh.onrender.com';
 const ICE_CONFIG  = [{ urls: 'stun:stun.l.google.com:19302' }];
 const CHUNK_BYTES = 16 * 1024; 
@@ -625,7 +625,6 @@ async function doConnect() {
 
   loginScreen.classList.add('gone');
   
-  // הגדרה קריטית כדי לא לשבור את המובייל - מסיר את ההתערבות ה-Inline
   appEl.style.display = ''; 
   
   roomDisp.textContent = `#${room}`;
@@ -638,7 +637,7 @@ async function doConnect() {
 }
 
 function initSocket() {
-  // תיקון קריטי: השימוש המדויק במשתנה שהוגדר למעלה
+  // תיקון הבאג: שימוש בכתובת המוגדרת במשתנה SIGNAL_URL בלבד!
   socket = io(SIGNAL_URL, { transports: ['websocket'] });
 
   socket.on('connect', () => {
@@ -730,7 +729,7 @@ async function mkPeer(pid, isInit) {
     if (!streams?.[0] || entry.audioEl) return;
     const a = document.createElement('audio');
     a.autoplay = true; a.srcObject = streams[0];
-    $('audio-container').appendChild(a);
+    $('audio-container')?.appendChild(a); // מניעת שגיאה אם לא קיים
     entry.audioEl = a;
   };
 
