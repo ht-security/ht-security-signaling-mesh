@@ -108,58 +108,47 @@ html, body { width: 100%; height: 100%; overflow: hidden; background: var(--bg-v
 .act-msg.g { color: var(--c-green); }
 
 /* ══════════════════════════════════════════════
-   MOBILE RESPONSIVENESS (RIGID TACTICAL UI)
+   MOBILE RESPONSIVENESS (LAYOUT ONLY)
 ══════════════════════════════════════════════ */
 @media (max-width: 1024px) {
-  /* מניעת גלילה כללית של הדף - נעילה למסך */
-  html, body { 
-    overflow: hidden; 
-    height: 100dvh; 
-    width: 100vw; 
-    position: fixed; 
-  }
+  /* מניעת גלילת כל הדף - כדי לאפשר חלוקה קבועה למסך */
+  html, body { overflow: hidden; height: 100%; }
   
-  /* גריד קשיח: פאנל משתמשים מימין, צ'אט משמאל */
+  /* סידור מחדש של הגריד בנייד: רשימת משתמשים מימין, צ'אט משמאל */
   #app { 
     display: grid; 
-    grid-template-rows: 60px 1fr; 
-    grid-template-columns: 120px 1fr; 
-    height: 100dvh; 
-    gap: 0;
+    grid-template-rows: 70px 1fr; 
+    /* 140 פיקסלים קבועים למשתמשים, השאר לצ'אט המרכזי */
+    grid-template-columns: 140px 1fr; 
+    height: 100%; 
   }
   
-  .topbar { grid-column: 1 / -1; padding: 0 10px; }
+  .topbar { grid-column: 1 / -1; }
   .metrics-bar { display: none; }
   
-  /* קיבוע רשימת המשתמשים מימין */
+  /* קיבוע רשימת המשתמשים מימין (RTL אוטומטית ממקם בעמודה 1 בימין) */
   .panel-left { 
-    grid-column: 1 / 2; 
+    grid-column: 1 / 2;
     width: 100%; 
     height: 100%; 
-    border-left: 1px solid var(--border-hi); 
-    min-height: unset;
+    min-height: unset; 
+    border: none;
+    border-left: 1px solid var(--border-hi);
   }
   
-  /* אזור הצ'אט משמאל */
+  /* קיבוע חלון הצ'אט משמאל */
   .panel-center { 
-    grid-column: 2 / 3; 
+    grid-column: 2 / 3;
     width: 100%; 
     height: 100%; 
-    min-height: unset;
+    min-height: unset; 
     border: none;
   }
   
-  /* הסתרת אזור הלוג בנייד */
+  /* הסתרת הלוגים בנייד כדי לפנות מקום */
   .panel-right { display: none; }
   
-  /* מיקרו-קופי והתאמת גדלים בנייד */
-  .panel-head { font-size: 11px; padding: 10px 5px; text-align: center; }
-  .brand-name { font-size: 16px; letter-spacing: 1px; }
-  .input-zone, .bcast-zone { padding: 8px; gap: 5px; }
-  .inp-field, .bcast-field { font-size: 14px; padding: 5px; }
-  #btn-send, #btn-bcast { padding: 8px 10px; font-size: 12px; }
-  .attach-btn { width: 35px; height: 35px; flex-shrink: 0; }
-  .cmd-bubble { max-width: 95%; font-size: 14px; padding: 8px; }
+  .cmd-bubble { max-width: 95%; }
 }
 </style>
 </head>
@@ -224,7 +213,7 @@ html, body { width: 100%; height: 100%; overflow: hidden; background: var(--bg-v
 <script>
 'use strict';
 
-// URL המעודכן לשרת ה-Render שלך
+// חיבור אוטומטי לשרת בענן
 const SIGNAL_URL = 'https://ht-security-signaling-mesh.onrender.com';
 const CHUNK_SIZE = 16 * 1024;
 const peers = new Map();
