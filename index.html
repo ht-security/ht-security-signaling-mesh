@@ -579,7 +579,9 @@ async function doConnect() {
   uptimeStart = Date.now();
 
   loginScreen.classList.add('gone');
+  
   appEl.style.display = ''; 
+  
   roomDisp.textContent = `#${room}`;
   bcastMsg.disabled = false;
   btnBcast.disabled = false;
@@ -635,25 +637,32 @@ function initSocket() {
         return; 
     }
     if (!peers.has(data.from)) await mkPeer(data.from, false);
-    const { pc } = peers.get(data.from);
-    await pc.setRemoteDescription(new RTCSessionDescription(data.offer));
-    const ans = await pc.createAnswer();
-    await pc.setLocalDescription(ans);
-    socket.emit('answer', { to: data.from, answer: ans, token: authToken, auth: authToken });
+    const peerEntry = peers.get(data.from);
+    if (peerEntry && peerEntry.pc) {
+      try {
+        if (peerEntry.pc.signalingState !== 'stable') {
+            await peerEntry.pc.setLocalDescription({type: 'rollback'});
+        }
+        await peerEntry.pc.setRemoteDescription(new RTCSessionDescription(data.offer));
+        const ans = await peerEntry.pc.createAnswer();
+        await peerEntry.pc.setLocalDescription(ans);
+        socket.emit('answer', { to: data.from, answer: ans, token: authToken, auth: authToken });
+      } catch(e) { console.error("Offer handling error", e); }
+    }
   });
 
   socket.on('answer', async (data) => {
     const rToken = data.token || data.auth;
     if (!validToken(rToken)) return;
     const e = peers.get(data.from);
-    if (e) try { await e.pc.setRemoteDescription(new RTCSessionDescription(data.answer)); } catch(_) {}
+    if (e && e.pc) try { await e.pc.setRemoteDescription(new RTCSessionDescription(data.answer)); } catch(_) {}
   });
 
   socket.on('ice-candidate', async (data) => {
     const rToken = data.token || data.auth;
     if (!validToken(rToken)) return;
     const e = peers.get(data.from);
-    if (e && data.candidate) try { await e.pc.addIceCandidate(new RTCIceCandidate(data.candidate)); } catch(_) {}
+    if (e && e.pc && data.candidate) try { await e.pc.addIceCandidate(new RTCIceCandidate(data.candidate)); } catch(_) {}
   });
 }
 
@@ -662,35 +671,18 @@ async function mkPeer(pid, isInit) {
   const entry = { pc, dc: null, audioEl: null, unread: 0 };
   peers.set(pid, entry);
 
-  if (localStream) localStream.getTracks().forEach(t => { try { pc.addTrack(t, localStream); } catch(_) {} });
-
-  pc.onnegotiationneeded = async () => {
-    try {
-      const offer = await pc.createOffer();
-      await pc.setLocalDescription(offer);
-      socket.emit('offer', { to: pid, offer, token: authToken, auth: authToken });
-    } catch (e) {}
-  };
-
-  if (isInit) {
-    const dc = pc.createDataChannel('sec', { ordered: true });
-    dc.binaryType = 'arraybuffer';
-    entry.dc = dc;
-    wireDC(dc, pid);
-  } else {
-    pc.ondatachannel = ({ channel }) => {
-      channel.binaryType = 'arraybuffer';
-      entry.dc = channel;
-      wireDC(channel, pid);
-    };
+  if (localStream) {
+    localStream.getTracks().forEach(t => { try { pc.addTrack(t, localStream); } catch(e){} });
   }
 
   pc.ontrack = ({ streams }) => {
-    if (!streams?.[0] || entry.audioEl) return;
-    const a = document.createElement('audio');
-    a.autoplay = true; a.srcObject = streams[0];
-    document.body.appendChild(a);
-    entry.audioEl = a;
+    if (!entry.audioEl && streams && streams[0]) {
+      const a = document.createElement('audio');
+      a.autoplay = true;
+      a.srcObject = streams[0];
+      document.body.appendChild(a);
+      entry.audioEl = a;
+    }
   };
 
   pc.onicecandidate = ({ candidate }) => {
@@ -704,9 +696,22 @@ async function mkPeer(pid, isInit) {
   };
 
   if (isInit) {
-    const offer = await pc.createOffer();
-    await pc.setLocalDescription(offer);
-    socket.emit('offer', { to: pid, offer, token: authToken, auth: authToken });
+    const dc = pc.createDataChannel('sec', { ordered: true });
+    dc.binaryType = 'arraybuffer';
+    entry.dc = dc;
+    wireDC(dc, pid);
+    
+    try {
+        const offer = await pc.createOffer();
+        await pc.setLocalDescription(offer);
+        socket.emit('offer', { to: pid, offer, token: authToken, auth: authToken });
+    } catch(e) {}
+  } else {
+    pc.ondatachannel = ({ channel }) => {
+      channel.binaryType = 'arraybuffer';
+      entry.dc = channel;
+      wireDC(channel, pid);
+    };
   }
 
   renderNodes(); updateStats();
@@ -747,7 +752,10 @@ async function sendText() {
   const text = inpMsg.value.trim();
   if (!text || !activePeer) return;
   const e = peers.get(activePeer);
-  if (!e?.dc || e.dc.readyState !== 'open') return;
+  if (!e || !e.dc || e.dc.readyState !== 'open') {
+      logAct('CHANNEL NOT READY', 'r');
+      return;
+  }
 
   const enc = await encrypt(new TextEncoder().encode(JSON.stringify({ type:'text', content:text })));
   e.dc.send(enc);
@@ -763,7 +771,7 @@ async function sendBroadcast() {
   if (!text) return;
   let n = 0;
   for (const e of peers.values()) {
-    if (e.dc?.readyState === 'open') {
+    if (e.dc && e.dc.readyState === 'open') {
       const enc = await encrypt(new TextEncoder().encode(JSON.stringify({ type:'broadcast', content:text })));
       e.dc.send(enc);
       txBytes += enc.byteLength;
@@ -792,10 +800,10 @@ async function sendFile(file, target) {
     
     let sentCount = 0;
     if(target === 'all') {
-        peers.forEach(p => { if(p.dc?.readyState === 'open') { p.dc.send(enc); txBytes += enc.byteLength; sentCount++; } });
+        peers.forEach(p => { if(p.dc && p.dc.readyState === 'open') { p.dc.send(enc); txBytes += enc.byteLength; sentCount++; } });
     } else {
         const p = peers.get(target);
-        if (p?.dc?.readyState === 'open') { p.dc.send(enc); txBytes += enc.byteLength; sentCount++; }
+        if (p && p.dc && p.dc.readyState === 'open') { p.dc.send(enc); txBytes += enc.byteLength; sentCount++; }
     }
     totalPkts += sentCount;
     updatePktProg(progId, (i + 1) / total);
@@ -806,7 +814,7 @@ async function sendFile(file, target) {
 
 async function sendBroadcastFile(file) {
   let openCount = 0;
-  peers.forEach(e => { if (e.dc?.readyState === 'open') openCount++; });
+  peers.forEach(e => { if (e.dc && e.dc.readyState === 'open') openCount++; });
   if (openCount === 0) {
       sysMsg('NO ACTIVE NODES TO BROADCAST TO', 'warn');
       return;
@@ -840,14 +848,26 @@ micBlock.addEventListener('click', async () => {
       micOn = true;
       micBlock.className = 'mic-block on';
       micTxt.textContent = 'MIC LIVE';
-      peers.forEach(e => localStream.getTracks().forEach(t => { try { e.pc.addTrack(t, localStream); } catch(_) {} }));
+      
+      // Update all peers with the new audio track safely
+      peers.forEach(async (entry, pid) => {
+        if (entry.pc.signalingState !== 'closed') {
+            localStream.getTracks().forEach(t => { try { entry.pc.addTrack(t, localStream); } catch(e){} });
+            try {
+                const offer = await entry.pc.createOffer();
+                await entry.pc.setLocalDescription(offer);
+                socket.emit('offer', { to: pid, offer, token: authToken });
+            } catch(e) {}
+        }
+      });
       logAct('MICROPHONE ARMED', 'g');
-    } catch { sysMsg('MICROPHONE ACCESS DENIED', 'warn'); logAct('MIC ACCESS DENIED', 'r'); }
+    } catch(err) { sysMsg('MICROPHONE ACCESS DENIED', 'warn'); logAct('MIC ACCESS DENIED', 'r'); }
   } else {
+    // Mute instead of destroying tracks to avoid renegotiation glitches
     if (localStream) {
       const tracks = localStream.getAudioTracks();
       tracks.forEach(t => { t.enabled = !t.enabled; });
-      const muted = !tracks[0]?.enabled;
+      const muted = !tracks[0] || !tracks[0].enabled;
       micBlock.className = `mic-block ${muted ? 'off' : 'on'}`;
       micTxt.textContent = muted ? 'MIC MUTED' : 'MIC LIVE';
       logAct(muted ? 'CHANNEL MUTED' : 'CHANNEL LIVE', muted ? 'a' : 'g');
@@ -867,14 +887,14 @@ function cleanPeer(pid) {
   if (!e) return;
   if (e.dc)       { try{e.dc.close();}        catch(_){} e.dc       = null; }
   if (e.pc)       { try{e.pc.close();}        catch(_){} e.pc       = null; }
-  if (e.audioEl)  { e.audioEl.srcObject=null; e.audioEl.remove(); e.audioEl=null; }
+  if (e.audioEl)  { try{e.audioEl.srcObject=null; e.audioEl.remove();}catch(_){} e.audioEl=null; }
   peers.delete(pid);
   if (activePeer === pid) { activePeer=null; resetConsole(); }
   renderNodes(); updateStats();
 }
 
 function cleanAll() {
-  [...peers.keys()].forEach(cleanPeer);
+  Array.from(peers.keys()).forEach(cleanPeer);
   stopMic(); renderNodes(); updateStats();
 }
 
@@ -895,7 +915,7 @@ function renderNodes() {
       <div class="nc-avatar" style="${st==='connected'?'border-color:rgba(0,255,136,.5);color:var(--c-green)':''}">${short(pid).slice(0,2).toUpperCase()}</div>
       <div class="nc-info">
         <div class="nc-id">${short(pid)}</div>
-        <div class="nc-state ${st}">${{connected:'● CONNECTED',connecting:'◌ LINKING...',failed:'✕ FAILED'}[st]}${entry.dc?.readyState==='open'?' 🔒':''}</div>
+        <div class="nc-state ${st}">${{connected:'● CONNECTED',connecting:'◌ LINKING...',failed:'✕ FAILED'}[st]}${entry.dc && entry.dc.readyState==='open'?' 🔒':''}</div>
       </div>
       ${entry.unread>0 ? `<div class="nc-unread">${entry.unread}</div>` : ''}
     `;
@@ -917,7 +937,8 @@ function selectPeer(pid) {
   inpMsg.disabled    = false;
   btnSend.disabled   = false;
   btnAttach.disabled = false;
-  termIdle?.remove();
+  const idle = $('terminal-idle');
+  if(idle) idle.remove();
   renderNodes();
 }
 
@@ -935,7 +956,8 @@ function resetConsole() {
 }
 
 function appendCmd(text, dir, fromId) {
-  $('terminal-idle')?.remove();
+  const idle = $('terminal-idle');
+  if(idle) idle.remove();
   const row = document.createElement('div');
   row.className = `cmd-row ${dir}`;
   row.innerHTML = `
@@ -948,7 +970,8 @@ function appendCmd(text, dir, fromId) {
 }
 
 function appendBcast(text, fromId) {
-  $('terminal-idle')?.remove();
+  const idle = $('terminal-idle');
+  if(idle) idle.remove();
   const d = document.createElement('div');
   d.className = 'bcast-msg';
   d.innerHTML = `<div class="bcast-hdr">${fromId==='me'?'TX':'RX'} BROADCAST · ${ts()}</div>${esc(text)}`;
@@ -957,7 +980,8 @@ function appendBcast(text, fromId) {
 }
 
 function sysMsg(text, cls='') {
-  $('terminal-idle')?.remove();
+  const idle = $('terminal-idle');
+  if(idle) idle.remove();
   const d = document.createElement('div');
   d.className = `sys-line ${cls}`;
   d.textContent = `[${ts()}] ${text}`;
@@ -967,7 +991,8 @@ function sysMsg(text, cls='') {
 
 let pktCtr = 0;
 function appendPktSend(name, size) {
-  $('terminal-idle')?.remove();
+  const idle = $('terminal-idle');
+  if(idle) idle.remove();
   const id = `pkt${++pktCtr}`;
   const row = document.createElement('div');
   row.className = 'pkt-row out'; row.id = id;
@@ -1001,7 +1026,8 @@ function updatePktProg(id, ratio) {
 }
 
 function appendPktRecv(name, size, buffer, fromId) {
-  $('terminal-idle')?.remove();
+  const idle = $('terminal-idle');
+  if(idle) idle.remove();
   const id = `pkt-rx-${++pktCtr}`;
   
   const blob = new Blob([buffer], { type: 'application/octet-stream' });
@@ -1048,7 +1074,7 @@ function logAct(msg, cls='') {
 
 function updateStats() {
   let open = 0;
-  peers.forEach(e => { if (e.dc?.readyState === 'open') open++; });
+  peers.forEach(e => { if (e.dc && e.dc.readyState === 'open') open++; });
   
   const n = (socket && socket.connected) ? peers.size + 1 : 0;
   $('n-count').textContent = n;
@@ -1091,7 +1117,7 @@ bcastFileInput.addEventListener('change', () => {
 });
 
 btnLeave.addEventListener('click', () => {
-  socket?.emit('leave-room', { room:currentRoom });
+  if (socket) socket.emit('leave-room', { room:currentRoom });
   cleanAll();
   loginScreen.classList.remove('gone');
   appEl.style.display = 'none';
