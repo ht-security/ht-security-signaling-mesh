@@ -8,231 +8,114 @@
 <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
 <style>
-/* ══════════════════════════════════════════════
-   ROOT VARIABLES
-══════════════════════════════════════════════ */
 :root {
-  --c-blue:       #00d2ff;
-  --c-blue-dim:   rgba(0,210,255,0.15);
-  --c-blue-glow:  rgba(0,210,255,0.4);
-  --c-green:      #00ff88;
-  --c-green-dim:  rgba(0,255,136,0.15);
-  --c-green-glow: rgba(0,255,136,0.4);
-  --c-red:        #ff3366;
-  --c-red-dim:    rgba(255,51,102,0.15);
-  --c-amber:      #ffb700;
-  --c-amber-dim:  rgba(255,183,0,0.15);
-  --bg-void:      #020810;
-  --bg-deep:      #030d1a;
-  --bg-panel:     rgba(4,14,28,0.85);
-  --bg-card:      rgba(6,18,36,0.8);
-  --bg-input:     rgba(3,10,22,0.95);
-  --border-dim:   rgba(0,210,255,0.15);
-  --border-mid:   rgba(0,210,255,0.3);
-  --border-hi:    rgba(0,210,255,0.5);
-  --txt-hi:       #ffffff;
-  --txt-mid:      #8bc1df; 
-  --txt-lo:       #5c8fa6; 
-  --font-mono:    'Share Tech Mono', monospace;
-  --font-ui:      'Rajdhani', sans-serif;
-  --font-display: 'Orbitron', monospace;
+  --c-blue: #00d2ff; --c-blue-dim: rgba(0,210,255,0.15); --c-blue-glow: rgba(0,210,255,0.4);
+  --c-green: #00ff88; --c-green-dim: rgba(0,255,136,0.15); --c-green-glow: rgba(0,255,136,0.4);
+  --c-red: #ff3366; --c-amber: #ffb700; --bg-void: #020810; --bg-panel: rgba(4,14,28,0.85);
+  --border-mid: rgba(0,210,255,0.3); --border-hi: rgba(0,210,255,0.5);
+  --txt-hi: #ffffff; --font-mono: 'Share Tech Mono', monospace; --font-ui: 'Rajdhani', sans-serif; --font-display: 'Orbitron', monospace;
 }
-
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html, body { width: 100%; height: 100%; overflow: hidden; background: var(--bg-void); color: var(--txt-hi); font-family: var(--font-ui); font-size: 16px; cursor: crosshair; }
-
-#file-input, #bcast-file-input { display: none !important; visibility: hidden; position: absolute; z-index: -999; }
-
-/* ══════════════════════════════════════════════
-   ANIMATED BACKGROUND
-══════════════════════════════════════════════ */
-.world { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+*,*::before,*::after { box-sizing: border-box; margin: 0; padding: 0; }
+html,body { width: 100%; height: 100%; overflow: hidden; background: var(--bg-void); color: var(--txt-hi); font-family: var(--font-ui); }
+#file-input,#bcast-file-input { display: none; }
+.world { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
 .grid-layer { position: absolute; inset: -100px; background-image: linear-gradient(rgba(0,210,255,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(0,210,255,0.05) 1px, transparent 1px); background-size: 50px 50px; animation: grid-move 25s linear infinite; }
-@keyframes grid-move { 0% { transform: translateY(0) translateX(0); } 100% { transform: translateY(50px) translateX(50px); } }
-.atm-blob { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.15; }
-.atm-blob-1 { width:600px;height:400px; background:var(--c-blue); top:-100px; left:-100px; }
-.scanlines { position: absolute; inset: 0; background: repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(0,0,0,0.1) 3px, rgba(0,0,0,0.1) 4px); }
+@keyframes grid-move { 0% { transform: translate(0,0); } 100% { transform: translate(50px,50px); } }
 
-/* ══════════════════════════════════════════════
-   LOGIN SCREEN
-══════════════════════════════════════════════ */
-.login-screen { position: fixed; inset: 0; z-index: 500; display: flex; align-items: center; justify-content: center; background: radial-gradient(ellipse 100% 100% at 50% 50%, rgba(0,30,60,0.85) 0%, rgba(2,8,16,0.97) 70%); backdrop-filter: blur(8px); }
+.login-screen { position: fixed; inset: 0; z-index: 500; display: flex; align-items: center; justify-content: center; background: rgba(2,8,16,0.95); backdrop-filter: blur(8px); }
 .login-screen.gone { display: none; }
-.login-frame { position: relative; width: 90%; max-width: 520px; background: var(--bg-panel); border: 1px solid var(--border-hi); backdrop-filter: blur(30px); padding: 0; clip-path: polygon(25px 0, 100% 0, 100% calc(100% - 25px), calc(100% - 25px) 100%, 0 100%, 0 25px); }
-.login-header { padding: 40px 40px 24px; border-bottom: 1px solid var(--border-dim); text-align: center; }
-.login-title { font-family: var(--font-display); font-size: 28px; font-weight: 900; letter-spacing: 5px; background: linear-gradient(90deg, var(--c-blue), var(--c-green)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 8px; }
-.login-body { padding: 32px 40px 40px; }
-.tac-input { width: 100%; background: var(--bg-input); border: 1px solid var(--border-mid); color: var(--txt-hi); font-family: var(--font-mono); font-size: 18px; padding: 16px 20px; outline: none; direction: rtl; margin-bottom: 20px; }
-.enc-note { background: var(--c-green-dim); border: 1px solid rgba(0,255,136,0.3); padding: 14px 18px; margin-bottom: 28px; font-family: var(--font-mono); font-size: 13px; color: var(--c-green); text-align: center; }
-.tac-btn { width: 100%; padding: 18px 24px; background: transparent; border: 1px solid var(--border-hi); color: var(--c-blue); font-family: var(--font-display); font-size: 16px; font-weight: 700; cursor: pointer; text-transform: uppercase; }
+.login-frame { width: 90%; max-width: 500px; background: var(--bg-panel); border: 1px solid var(--border-hi); padding: 40px; text-align: center; }
+.tac-input { width: 100%; background: rgba(0,0,0,0.5); border: 1px solid var(--border-mid); color: #fff; padding: 15px; margin-bottom: 15px; font-family: var(--font-mono); outline: none; direction: rtl; }
+.tac-btn { width: 100%; padding: 18px; background: transparent; border: 1px solid var(--c-blue); color: var(--c-blue); font-family: var(--font-display); font-weight: 700; cursor: pointer; }
 
-/* ══════════════════════════════════════════════
-   MAIN APP LAYOUT
-══════════════════════════════════════════════ */
-#app { position: relative; z-index: 1; display: grid; grid-template-rows: 70px 1fr; grid-template-columns: 400px 1fr 350px; width: 100%; height: 100%; gap: 2px; background: var(--border-dim); }
+#app { display: grid; grid-template-rows: 70px 1fr; grid-template-columns: 350px 1fr 300px; width: 100%; height: 100%; position: relative; z-index: 1; }
+.topbar { grid-column: 1/-1; background: #000; border-bottom: 1px solid var(--border-mid); display: flex; align-items: center; justify-content: space-between; padding: 0 20px; }
+.panel-left,.panel-right { background: var(--bg-panel); display: flex; flex-direction: column; overflow: hidden; border-left: 1px solid var(--border-mid); }
+.panel-center { background: rgba(3,10,20,0.8); display: flex; flex-direction: column; border-left: 1px solid var(--border-hi); }
+.panel-head { padding: 15px; border-bottom: 1px solid var(--border-mid); background: rgba(0,210,255,0.05); font-weight: bold; }
+.console-msgs { flex: 1; overflow-y: auto; padding: 20px; display: flex; flex-direction: column; gap: 10px; }
+.cmd-row { display: flex; margin-bottom: 5px; }
+.cmd-row.out { justify-content: flex-end; }
+.cmd-bubble { max-width: 80%; padding: 10px 15px; border: 1px solid; border-radius: 5px; font-family: var(--font-mono); }
+.cmd-row.out .cmd-bubble { border-color: var(--c-blue); background: var(--c-blue-dim); }
+.cmd-row.in .cmd-bubble { border-color: var(--c-green); background: var(--c-green-dim); }
+.input-zone { padding: 15px; border-top: 1px solid var(--border-mid); display: flex; gap: 10px; background: #000; }
+.inp-field { flex: 1; background: transparent; border: none; border-bottom: 1px solid var(--c-blue); color: #fff; padding: 5px; outline: none; direction: rtl; }
 
-.topbar { grid-column: 1 / -1; background: rgba(2,8,18,0.95); border-bottom: 1px solid var(--border-mid); display: flex; align-items: center; justify-content: space-between; padding: 0 28px; }
-.brand-name { font-family: var(--font-display); font-size: 20px; color: var(--c-blue); letter-spacing: 4px; }
-
-.panel-left, .panel-right { background: var(--bg-panel); display: flex; flex-direction: column; overflow: hidden; border-left: 1px solid var(--border-mid); }
-.panel-head { padding: 20px 24px; border-bottom: 1px solid var(--border-mid); background: rgba(0,0,0,0.2); font-family: var(--font-mono); font-size: 14px; font-weight: bold; display: flex; justify-content: space-between; }
-
-.panel-center { background: rgba(3,10,20,0.85); display: flex; flex-direction: column; overflow: hidden; }
-.console-msgs { flex:1; overflow-y:auto; padding:24px; display:flex; flex-direction:column; gap:12px; }
-
-.cmd-row { display:flex; margin-bottom:8px; }
-.cmd-row.out { justify-content:flex-end; }
-.cmd-row.in  { justify-content:flex-start; }
-.cmd-bubble { max-width:85%; padding: 14px 22px; font-family:var(--font-mono); font-size:17px; border:1px solid; border-radius: 4px; }
-.cmd-row.out .cmd-bubble { background:rgba(0,60,120,.4); border-color:var(--c-blue); }
-.cmd-row.in .cmd-bubble { background:rgba(0,40,30,.5); border-color:var(--c-green); }
-
-.input-zone, .bcast-zone { padding:20px 24px; background:rgba(2,7,16,.95); display:flex; gap:16px; align-items:center; border-top:1px solid var(--border-mid); }
-.inp-field, .bcast-field { flex:1; background:transparent; border:none; border-bottom:2px solid var(--border-dim); color:var(--txt-hi); font-family:var(--font-mono); font-size:18px; padding:10px; outline:none; direction:rtl; }
-
-/* ══════════════════════════════════════════════
-   MOBILE RESPONSIVENESS (2-COL LOCKED)
-══════════════════════════════════════════════ */
 @media (max-width: 1024px) {
-  html, body { overflow: hidden !important; height: 100dvh !important; position: fixed !important; }
-  #app { 
-    display: grid !important; 
-    grid-template-rows: 60px 1fr !important; 
-    grid-template-columns: 130px 1fr !important; 
-    height: 100dvh !important; 
-  }
-  .topbar { grid-column: 1 / -1; height: 60px; padding: 0 10px; }
-  .panel-left { grid-column: 1 / 2 !important; border-left: 1px solid var(--border-hi); }
-  .panel-center { grid-column: 2 / 3 !important; border: none; }
-  .panel-right { display: none !important; }
-  .cmd-bubble { max-width: 95%; font-size: 14px; padding: 10px; }
-  .input-zone, .bcast-zone { padding: 8px; gap: 5px; flex-wrap: nowrap; }
-  .inp-field, .bcast-field { font-size: 14px; padding: 5px; }
-  .nc-avatar { width: 32px; height: 32px; }
+  html, body { overflow: hidden !important; position: fixed; }
+  #app { grid-template-columns: 130px 1fr !important; }
+  .panel-right { display: none; }
+  .input-zone { padding: 10px; flex-wrap: nowrap; }
 }
-
-.mic-block { padding: 15px; border: 1px solid; cursor: pointer; text-align: center; font-family: var(--font-mono); font-weight: bold; }
-.mic-block.off { border-color: var(--c-red); color: var(--c-red); }
-.mic-block.on { border-color: var(--c-green); color: var(--c-green); background: var(--c-green-dim); }
 </style>
 </head>
 <body>
-
-<div class="world">
-  <div class="grid-layer"></div>
-  <div class="scanlines"></div>
-</div>
-
-<input type="file" id="file-input">
-<input type="file" id="bcast-file-input">
-
+<div class="world"><div class="grid-layer"></div></div>
+<input type="file" id="file-input"><input type="file" id="bcast-file-input">
 <div class="login-screen" id="login-screen">
   <div class="login-frame">
-    <div class="login-header"><div class="login-title">HT-SECURITY</div></div>
-    <div class="login-body">
-      <input class="tac-input" id="inp-room" type="text" placeholder="מזהה חדר..." autocomplete="off">
-      <input class="tac-input" id="inp-pass" type="password" placeholder="מפתח הצפנה...">
-      <div class="enc-note">AES-256-GCM · מפתח נגזר מקומית</div>
-      <button class="tac-btn" id="btn-connect">INITIATE SECURE CONNECTION</button>
-    </div>
+    <h2 class="login-title" style="font-family:var(--font-display);color:var(--c-blue);margin-bottom:20px;">HT-SECURITY</h2>
+    <input class="tac-input" id="inp-room" type="text" placeholder="מזהה חדר..." autocomplete="off">
+    <input class="tac-input" id="inp-pass" type="password" placeholder="מפתח הצפנה...">
+    <button class="tac-btn" id="btn-connect">INITIATE SECURE CONNECTION</button>
   </div>
 </div>
-
 <div id="app" style="display:none">
-  <header class="topbar">
-    <div class="brand-name">HT-SECURITY // MESH</div>
-    <div style="font-family:var(--font-mono); font-size:12px;">NODE: <em id="my-id-el">---</em></div>
-  </header>
-
-  <aside class="panel-left">
-    <div class="panel-head"><span>NETWORK</span><span id="n-count">0</span></div>
-    <div class="room-section" style="padding:15px; border-bottom:1px solid var(--border-mid)">
-        <div class="mic-block off" id="mic-block">MIC OFFLINE</div>
-    </div>
-    <div id="nodes-scroll" style="flex:1; overflow-y:auto; padding:10px;"></div>
-  </aside>
-
-  <main class="panel-center">
-    <div class="panel-head">CHANNEL › <em id="ch-target">SELECT NODE</em></div>
-    <div class="console-msgs" id="console-msgs"></div>
+  <header class="topbar"><div style="color:var(--c-blue);font-weight:bold;">HT-SECURITY // MESH</div><div id="my-id-el" style="font-size:12px;">NODE: ---</div></header>
+  <aside class="panel-left"><div class="panel-head">NETWORK</div><div id="nodes-scroll" style="flex:1;overflow-y:auto;"></div></aside>
+  <main class="panel-center"><div class="panel-head">CHANNEL › <em id="ch-target">SELECT NODE</em></div><div class="console-msgs" id="console-msgs"></div>
     <div class="input-zone">
-      <button id="btn-attach" style="background:none; border:1px solid var(--c-blue); color:var(--c-blue); border-radius:50%; width:35px; height:35px; cursor:pointer;">📎</button>
       <input class="inp-field" id="inp-msg" type="text" placeholder="הודעה מוצפנת..." disabled>
-      <button id="btn-send" style="background:var(--c-blue); color:black; border:none; padding:10px 20px; font-weight:bold; cursor:pointer;" disabled>SEND</button>
+      <button id="btn-send" style="background:var(--c-blue);border:none;padding:10px;cursor:pointer;" disabled>SEND</button>
     </div>
   </main>
-
-  <aside class="panel-right">
-    <div class="panel-head">ACTIVITY LOG</div>
-    <div id="activity-log" style="flex:1; overflow-y:auto; padding:15px; font-family:var(--font-mono); font-size:12px;"></div>
-  </aside>
+  <aside class="panel-right"><div class="panel-head">ACTIVITY LOG</div><div id="activity-log" style="padding:10px;font-size:12px;"></div></aside>
 </div>
-
 <script>
-'use strict';
-
 const SIGNAL_URL = "https://ht-security-signaling-mesh.onrender.com";
 const peers = new Map();
-let socket, cryptoKey, authToken, myId, activePeer, currentRoom, localStream;
-
+let socket, cryptoKey, authToken, myId, activePeer;
 const $ = id => document.getElementById(id);
 
 async function deriveKey(pass, room) {
   const enc = new TextEncoder();
   const base = await crypto.subtle.importKey('raw', enc.encode(pass), 'PBKDF2', false, ['deriveKey']);
-  return crypto.subtle.deriveKey(
-    { name:'PBKDF2', salt:enc.encode(room), iterations:100000, hash:'SHA-256' },
-    base, { name:'AES-GCM', length:256 }, false, ['encrypt','decrypt']
-  );
+  return crypto.subtle.deriveKey({ name:'PBKDF2', salt:enc.encode(room), iterations:100000, hash:'SHA-256' }, base, { name:'AES-GCM', length:256 }, false, ['encrypt','decrypt']);
 }
-
 async function encrypt(data) {
   const iv = crypto.getRandomValues(new Uint8Array(12));
   const ct = await crypto.subtle.encrypt({ name:'AES-GCM', iv }, cryptoKey, data);
-  const out = new Uint8Array(12 + ct.byteLength);
-  out.set(iv); out.set(new Uint8Array(ct), 12);
+  const out = new Uint8Array(12 + ct.byteLength); out.set(iv); out.set(new Uint8Array(ct), 12);
   return out.buffer;
 }
-
 async function decrypt(buf) {
   const a = new Uint8Array(buf);
   return crypto.subtle.decrypt({ name:'AES-GCM', iv:a.slice(0,12) }, cryptoKey, a.slice(12));
 }
 
-$('btn-connect').onclick = async function() {
+$('btn-connect').onclick = async () => {
   const room = $('inp-room').value.trim();
   const pass = $('inp-pass').value.trim();
   if(!room || !pass) return;
-
-  $('btn-connect').textContent = "INITIALIZING...";
   cryptoKey = await deriveKey(pass, room);
   authToken = btoa(room + ":" + pass);
-  currentRoom = room;
-  
   socket = io(SIGNAL_URL, { transports: ['websocket'] });
-
-  socket.on('connect', function() {
-    myId = socket.id;
-    $('my-id-el').textContent = myId.substring(0,8);
-    socket.emit('join-room', { room: room });
-    $('login-screen').classList.add('gone');
-    $('app').style.display = 'grid';
-    log('SYSTEM ONLINE', 'g');
+  socket.on('connect', () => {
+    myId = socket.id; $('my-id-el').textContent = "NODE: " + myId.substring(0,6);
+    socket.emit('join-room', { room });
+    $('login-screen').classList.add('gone'); $('app').style.display = 'grid';
   });
-
-  socket.on('room-peers', data => data.peers.forEach(pid => mkPeer(pid, true)));
-  socket.on('user-connected', data => { log('NODE JOINED', 'g'); mkPeer(data.peerId, false); });
-  
+  socket.on('room-peers', d => d.peers.forEach(pid => mkPeer(pid, true)));
+  socket.on('user-connected', d => mkPeer(d.peerId, false));
   socket.on('offer', async d => {
     if(d.token !== authToken) return;
     if(!peers.has(d.from)) await mkPeer(d.from, false);
     const p = peers.get(d.from);
     await p.pc.setRemoteDescription(new RTCSessionDescription(d.offer));
-    const ans = await p.pc.createAnswer();
-    await p.pc.setLocalDescription(ans);
+    const ans = await p.pc.createAnswer(); await p.pc.setLocalDescription(ans);
     socket.emit('answer', { to: d.from, answer: ans, token: authToken });
   });
-
   socket.on('answer', d => peers.has(d.from) && peers.get(d.from).pc.setRemoteDescription(new RTCSessionDescription(d.answer)));
   socket.on('ice-candidate', d => peers.has(d.from) && peers.get(d.from).pc.addIceCandidate(new RTCIceCandidate(d.candidate)));
 };
@@ -240,23 +123,15 @@ $('btn-connect').onclick = async function() {
 async function mkPeer(pid, init) {
   if(pid === myId) return;
   const pc = new RTCPeerConnection({ iceServers: [{urls:'stun:stun.l.google.com:19302'}] });
-  const entry = { pc, dc: null };
-  peers.set(pid, entry);
-
+  const entry = { pc, dc: null }; peers.set(pid, entry);
   pc.onicecandidate = e => e.candidate && socket.emit('ice-candidate', { to: pid, candidate: e.candidate, token: authToken });
-
   if(init) {
-    entry.dc = pc.createDataChannel('sec');
-    wireDC(entry.dc, pid);
-    const offer = await pc.createOffer();
-    await pc.setLocalDescription(offer);
+    entry.dc = pc.createDataChannel('sec'); wireDC(entry.dc, pid);
+    const offer = await pc.createOffer(); await pc.setLocalDescription(offer);
     socket.emit('offer', { to: pid, offer, token: authToken });
-  } else {
-    pc.ondatachannel = e => { entry.dc = e.channel; wireDC(e.channel, pid); };
-  }
+  } else { pc.ondatachannel = e => { entry.dc = e.channel; wireDC(e.channel, pid); }; }
   renderNodes();
 }
-
 function wireDC(dc, pid) {
   dc.binaryType = 'arraybuffer';
   dc.onmessage = async e => {
@@ -264,41 +139,27 @@ function wireDC(dc, pid) {
     const msg = JSON.parse(new TextDecoder().decode(plain));
     if(msg.type==='text') appendMsg(msg.val, 'in', pid);
   };
-  dc.onopen = () => renderNodes();
+  dc.onopen = renderNodes;
 }
-
-$('btn-send').onclick = async function() {
-  const val = $('inp-msg').value;
-  if(!val || !activePeer) return;
-  const enc = await encrypt(new TextEncoder().encode(JSON.stringify({type:'text', val: val})));
-  peers.get(activePeer).dc.send(enc);
-  appendMsg(val, 'out', myId);
-  $('inp-msg').value = '';
+$('btn-send').onclick = async () => {
+  const val = $('inp-msg').value; if(!val || !activePeer) return;
+  const enc = await encrypt(new TextEncoder().encode(JSON.stringify({type:'text', val})));
+  peers.get(activePeer).dc.send(enc); appendMsg(val, 'out', myId); $('inp-msg').value = '';
 };
-
 function renderNodes() {
   $('nodes-scroll').innerHTML = '';
   peers.forEach((v,k) => {
-    const d = document.createElement('div');
-    d.style.padding = '10px'; d.style.borderBottom = '1px solid var(--border-mid)'; d.style.cursor='pointer';
+    const d = document.createElement('div'); d.style.padding = '10px'; d.style.borderBottom = '1px solid var(--border-mid)';
     if(activePeer===k) d.style.background = 'var(--c-blue-dim)';
-    d.innerHTML = `NODE: ${k.substring(0,6)}`;
+    d.textContent = "NODE: " + k.substring(0,6);
     d.onclick = () => { activePeer=k; $('ch-target').textContent = k.substring(0,6); $('inp-msg').disabled=false; $('btn-send').disabled=false; renderNodes(); };
     $('nodes-scroll').appendChild(d);
   });
-  $('n-count').textContent = peers.size + 1;
 }
-
 function appendMsg(v, d, id) {
   const r = document.createElement('div'); r.className = 'cmd-row ' + d;
   r.innerHTML = `<div class="cmd-bubble"><strong>${id.substring(0,4)}:</strong> ${v}</div>`;
   $('console-msgs').appendChild(r); $('console-msgs').scrollTop = $('console-msgs').scrollHeight;
-}
-
-function log(m, c) {
-  const d = document.createElement('div'); d.style.color = c==='g'?'var(--c-green)':'var(--c-red)';
-  d.textContent = `[${new Date().toLocaleTimeString()}] ${m}`;
-  $('activity-log').appendChild(d);
 }
 </script>
 </body>
