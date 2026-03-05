@@ -282,24 +282,55 @@ html, body {
    MOBILE RESPONSIVENESS (טלפון נייד בלבד)
 ══════════════════════════════════════════════ */
 @media (max-width: 1024px) {
-  /* ביטול נעילת מסך - מאפשר גלילה רגילה ובריאה בנייד */
-  html, body { overflow-y: auto !important; overflow-x: hidden; height: auto !important; min-height: 100vh; }
+  /* נעילת מסך מלאה - בלי גלילה מיותרת */
+  html, body { overflow: hidden !important; height: 100dvh !important; width: 100vw !important; position: fixed !important; }
   
-  /* הפיכת הגריד לטור (Column) */
-  #app { display: flex !important; flex-direction: column; height: auto; min-height: 100vh; overflow: visible; }
+  /* גריד שתי עמודות: שמאל (צ'אט) וימין (משתמשים - 140px) */
+  #app { 
+    display: grid !important; 
+    grid-template-rows: auto 1fr !important; 
+    grid-template-columns: 140px 1fr !important; 
+    height: 100dvh !important; 
+    min-height: unset !important; 
+    overflow: hidden !important; 
+  }
   
-  /* התאמת ה-Top Bar */
-  .topbar { padding: 15px 10px; flex-wrap: wrap; height: auto; justify-content: center; gap: 15px; text-align: center; }
-  .brand { justify-content: center; width: 100%; }
-  .topbar-right { justify-content: center; width: 100%; }
-  .metrics-bar { display: none; } /* מסתיר סטטיסטיקות עליונות בנייד לחסכון במקום */
+  /* תפריט עליון פרוס על הכל */
+  .topbar { grid-column: 1 / -1 !important; padding: 10px; height: auto; flex-wrap: nowrap; justify-content: space-between; gap: 5px; }
+  .metrics-bar { display: none !important; }
+  .brand-ver { display: none !important; }
+  .brand-shield svg { width: 28px; height: 28px; }
+  .brand-name { font-size: 14px; letter-spacing: 2px; }
+  .topbar-right { gap: 8px; width: auto; }
+  .status-chip { padding: 4px 6px; font-size: 10px; }
+  .node-tag { font-size: 11px; }
   
-  /* סידור הפאנלים לפי חשיבות: 1. צ'אט, 2. רשת (צמתים), 3. מודיעין (סטטיסטיקות) */
-  .panel-center { order: 1; height: 65vh; min-height: 500px; border-left: none; border-right: none; border-bottom: 2px solid var(--border-hi); }
-  .panel-left { order: 2; height: auto; min-height: 400px; border-right: none; border-bottom: 2px solid var(--border-hi); }
-  .panel-right { order: 3; height: auto; min-height: 300px; border-left: none; }
+  /* פאנל משתמשים (ימין - עמודה 1 בגלל RTL) */
+  .panel-left { 
+    grid-column: 1 / 2 !important; 
+    height: 100% !important; 
+    min-height: unset !important; 
+    border-right: none !important; 
+    border-bottom: none !important; 
+    border-left: 1px solid var(--border-hi) !important; 
+    order: unset !important; 
+    width: 100% !important;
+  }
   
-  /* התאמת מסך ההתחברות (Login) */
+  /* פאנל צ'אט (שמאל - עמודה 2) */
+  .panel-center { 
+    grid-column: 2 / 3 !important; 
+    height: 100% !important; 
+    min-height: unset !important; 
+    border: none !important; 
+    order: unset !important; 
+    width: 100% !important;
+  }
+  
+  /* הסתרת לוגים כדי לא לחנוק את המסך */
+  .panel-right { display: none !important; }
+  
+  /* מסך התחברות */
   .login-frame { width: 92%; max-width: 400px; clip-path: none !important; border-radius: 12px; }
   .login-header { padding: 30px 20px 20px; }
   .login-body { padding: 20px; }
@@ -308,17 +339,30 @@ html, body {
   .enc-note { flex-direction: column; align-items: center; text-align: center; font-size: 12px; }
   .enc-note svg { margin-bottom: 8px; }
   
-  /* בועות צ'אט מותאמות למסך צר (ללא זוויות חתוכות) */
-  .cmd-bubble { max-width: 90%; font-size: 16px; padding: 12px 16px; clip-path: none !important; border-radius: 12px; }
+  /* התאמות לצ'אט עצמו */
+  .cmd-bubble { max-width: 95%; font-size: 14px; padding: 10px; clip-path: none !important; border-radius: 12px; }
   .cmd-row.out .cmd-bubble { border-radius: 12px 12px 0 12px; }
   .cmd-row.in .cmd-bubble { border-radius: 12px 12px 12px 0; }
   
-  /* אזורי הקלדה (Input Zones) בשתי שורות נוחות ללחיצה */
-  .input-zone, .bcast-zone { flex-wrap: wrap; padding: 12px; gap: 10px; justify-content: space-between; }
+  /* הקלדה */
+  .input-zone, .bcast-zone { padding: 8px; gap: 6px; flex-wrap: nowrap; justify-content: flex-start; }
   .inp-prompt, .bcast-prompt { display: none; }
-  .inp-field, .bcast-field { flex: 1 1 100%; min-width: 100%; margin-bottom: 5px; font-size: 16px; padding: 10px; }
-  .inp-send-btn, .bcast-send-btn { flex: 1; clip-path: none !important; border-radius: 8px; padding: 14px; text-align: center; }
-  .inp-file-btn, .bcast-attach-btn { flex-shrink: 0; }
+  .inp-field, .bcast-field { font-size: 14px; padding: 8px; min-width: 0; }
+  .inp-send-btn, .bcast-send-btn { padding: 8px; font-size: 12px; border-radius: 8px; clip-path: none !important; flex-shrink: 0; }
+  .inp-file-btn, .bcast-attach-btn { width: 36px; height: 36px; flex-shrink: 0; }
+  
+  /* הקטנת אלמנטים בתפריט המשתמשים */
+  .panel-head { padding: 10px; }
+  .ph-label { font-size: 11px; letter-spacing: 2px; }
+  .ph-badge { font-size: 11px; padding: 2px 6px; }
+  .room-section { padding: 10px; }
+  .room-display { font-size: 13px; padding: 6px; }
+  .tac-btn-sm { font-size: 11px; padding: 6px 10px; }
+  .mic-block { padding: 8px 10px; gap: 8px; }
+  .mic-text { font-size: 11px; }
+  .nc-avatar { width: 36px; height: 36px; font-size: 14px; }
+  .nc-id { font-size: 13px; }
+  .nc-state { font-size: 10px; }
 }
 </style>
 </head>
@@ -493,6 +537,7 @@ html, body {
 <script>
 'use strict';
 
+// הכתובת הוגדרה כאן למעלה במשתנה מסודר:
 const SIGNAL_URL = 'https://ht-security-signaling-mesh.onrender.com';
 const ICE_CONFIG  = [{ urls: 'stun:stun.l.google.com:19302' }];
 const CHUNK_BYTES = 16 * 1024; 
@@ -593,7 +638,8 @@ async function doConnect() {
 }
 
 function initSocket() {
-  socket = io(https://ht-security-signaling-mesh.onrender.com, { transports: ['websocket'] });
+  // תיקון קריטי: השימוש המדויק במשתנה שהוגדר למעלה
+  socket = io(SIGNAL_URL, { transports: ['websocket'] });
 
   socket.on('connect', () => {
     myId = socket.id;
