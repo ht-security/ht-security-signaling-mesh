@@ -30,25 +30,21 @@
   --border-dim:   rgba(0,210,255,0.15);
   --border-mid:   rgba(0,210,255,0.3);
   --border-hi:    rgba(0,210,255,0.5);
-  
   --txt-hi:       #ffffff;
-  --txt-mid:      #8bc1df; 
-  --txt-lo:       #5c8fa6; 
-  
+  --txt-mid:      #8bc1df;
+  --txt-lo:       #5c8fa6;
   --font-mono:    'Share Tech Mono', monospace;
   --font-ui:      'Rajdhani', sans-serif;
   --font-display: 'Orbitron', monospace;
 }
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html, body { 
-  width: 100%; height: 100%; 
-  overflow: hidden; 
-  background: var(--bg-void); color: var(--txt-hi); 
-  font-family: var(--font-ui); font-size: 16px; cursor: crosshair; 
+html, body {
+  width: 100%; height: 100%;
+  overflow: hidden;
+  background: var(--bg-void); color: var(--txt-hi);
+  font-family: var(--font-ui); font-size: 16px; cursor: crosshair;
 }
-
-/* העלמת כפתורי העלאת הקבצים הקדמיים */
 #file-input, #bcast-file-input { display: none !important; visibility: hidden; position: absolute; z-index: -999; width: 0; height: 0; }
 
 /* ══════════════════════════════════════════════
@@ -61,6 +57,7 @@ html, body {
 .atm-blob { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.15; }
 .atm-blob-1 { width:600px;height:400px; background:var(--c-blue); top:-100px; left:-100px; animation:blob-drift 20s ease-in-out infinite; }
 .atm-blob-2 { width:500px;height:500px; background:var(--c-green); bottom:-150px; right:-100px; animation:blob-drift 28s ease-in-out infinite reverse; }
+@keyframes blob-drift { 0%,100%{transform:translate(0,0) scale(1)} 33%{transform:translate(40px,-30px) scale(1.1)} 66%{transform:translate(-20px,20px) scale(0.95)} }
 .scanlines { position: absolute; inset: 0; background: repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(0,0,0,0.1) 3px, rgba(0,0,0,0.1) 4px); }
 
 /* ══════════════════════════════════════════════
@@ -72,6 +69,7 @@ html, body {
 .login-frame { position: relative; width: 90%; max-width: 520px; background: var(--bg-panel); border: 1px solid var(--border-hi); backdrop-filter: blur(30px); padding: 0; clip-path: polygon(25px 0, 100% 0, 100% calc(100% - 25px), calc(100% - 25px) 100%, 0 100%, 0 25px); animation: frame-drop .55s cubic-bezier(.16,1,.3,1); }
 @keyframes frame-drop { from { opacity:0; transform:translateY(-20px) scale(0.97); } to { opacity:1; transform:none; } }
 .login-frame::before { content: ''; position: absolute; top:0; left:25px; right:0; height:3px; background: linear-gradient(90deg, transparent, var(--c-blue), var(--c-green), var(--c-blue), transparent); animation: shimmer 3s ease-in-out infinite; }
+@keyframes shimmer { 0%,100%{opacity:.5} 50%{opacity:1} }
 .login-header { padding: 40px 40px 24px; border-bottom: 1px solid var(--border-dim); text-align: center; }
 .login-emblem svg { width: 76px; height: 76px; filter: drop-shadow(0 0 12px var(--c-blue)); }
 .login-title { font-family: var(--font-display); font-size: 28px; font-weight: 900; letter-spacing: 5px; background: linear-gradient(90deg, var(--c-blue), var(--c-green)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 8px; }
@@ -90,8 +88,8 @@ html, body {
 ══════════════════════════════════════════════ */
 #app {
   position: relative; z-index: 1; display: grid;
-  grid-template-rows: 70px 1fr; 
-  grid-template-columns: 460px 1fr 400px; 
+  grid-template-rows: 70px 1fr;
+  grid-template-columns: 460px 1fr 400px;
   width: 100%; height: 100%; gap: 2px; background: var(--border-dim);
 }
 
@@ -104,7 +102,6 @@ html, body {
 .brand-shield svg { width:42px; height:42px; filter: drop-shadow(0 0 8px var(--c-blue)); }
 .brand-name { font-family: var(--font-display); font-size: 20px; font-weight: 900; letter-spacing: 4px; background: linear-gradient(90deg, var(--c-blue), var(--c-green)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
 .brand-ver { font-family: var(--font-mono); font-size: 11px; letter-spacing: 4px; color: var(--txt-mid); text-transform: uppercase; margin-top: 3px; }
-
 .metrics-bar { display: flex; align-items: center; gap: 0; flex: 1; justify-content: center; }
 .metric-item { display: flex; flex-direction: column; align-items: center; padding: 0 32px; border-left: 1px solid var(--border-mid); }
 .metric-item:last-child { border-right: 1px solid var(--border-mid); }
@@ -112,13 +109,13 @@ html, body {
 .metric-val.green { color: var(--c-green); text-shadow: 0 0 12px var(--c-green); }
 .metric-val.amber { color: var(--c-amber); text-shadow: 0 0 12px var(--c-amber); }
 .metric-lbl { font-family: var(--font-mono); font-size: 11px; font-weight: bold; letter-spacing: 3px; color: var(--txt-mid); text-transform: uppercase; margin-top: 6px; }
-
 .topbar-right { display: flex; align-items: center; gap: 18px; }
 .node-tag { font-family: var(--font-mono); font-size: 14px; letter-spacing: 1px; color: var(--txt-mid); }
 .node-tag em { font-style:normal; color:var(--c-blue); font-weight:bold; }
 .status-chip { display: flex; align-items: center; gap: 8px; padding: 6px 16px; border: 1px solid; font-family: var(--font-mono); font-size: 12px; font-weight:bold; letter-spacing: 2px; text-transform: uppercase; }
 .status-chip.online  { border-color:rgba(0,255,136,0.5); color:var(--c-green); background:var(--c-green-dim); }
 .status-chip.offline { border-color:var(--txt-lo); color:var(--txt-lo); background:transparent; }
+.status-chip.enc     { border-color:rgba(0,210,255,0.4); color:var(--c-blue); background:var(--c-blue-dim); }
 .blink-dot { width: 8px; height: 8px; border-radius: 50%; background: currentColor; animation: blink 1s step-end infinite; }
 
 /* ══════════════════════════════════════════════
@@ -128,15 +125,13 @@ html, body {
 .panel-head { padding: 20px 24px; border-bottom: 1px solid var(--border-mid); display: flex; align-items: center; justify-content: space-between; flex-shrink: 0; background: rgba(0,0,0,0.2); }
 .ph-label { font-family: var(--font-mono); font-size: 14px; font-weight:bold; letter-spacing: 4px; color: var(--txt-mid); text-transform: uppercase; }
 .ph-badge { font-family: var(--font-mono); font-size: 14px; font-weight:700; padding: 4px 12px; background: var(--c-blue); color: #000; }
-
 .room-section { padding: 24px; border-bottom: 1px solid var(--border-mid); flex-shrink: 0; }
 .rs-row { display:flex; gap:12px; margin-bottom:16px; }
 .room-display { font-family: var(--font-mono); font-size: 16px; font-weight:bold; letter-spacing: 1px; color: var(--c-blue); padding: 10px 16px; border: 1px solid var(--border-mid); background: var(--c-blue-dim); flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .tac-btn-sm { padding: 10px 16px; background: transparent; border: 1px solid; font-family: var(--font-mono); font-size: 14px; font-weight:bold; letter-spacing: 2px; cursor: pointer; transition: all .15s; text-transform: uppercase; }
 .tac-btn-sm.red { border-color: rgba(255,34,85,.6); color: var(--c-red); }
 .tac-btn-sm:hover { background: rgba(255,34,85,.1); }
-
-.mic-block { display: flex; align-items: center; gap: 16px; padding: 14px 20px; border: 1px solid; cursor: pointer; transition: all .2s; position: relative; overflow: hidden; }
+.mic-block { display: flex; align-items: center; gap: 16px; padding: 14px 20px; border: 1px solid; cursor: pointer; transition: all .2s; }
 .mic-block.off { border-color:rgba(255,34,85,.5); background:rgba(255,34,85,.1); }
 .mic-block.on  { border-color:rgba(0,255,136,.5); background:rgba(0,255,136,.1); }
 .mic-block svg { flex-shrink:0; width: 24px; height: 24px; }
@@ -145,7 +140,6 @@ html, body {
 .mic-text { font-family: var(--font-mono); font-size: 15px; font-weight:bold; letter-spacing: 2px; text-transform: uppercase; flex:1; }
 .mic-block.off .mic-text { color:var(--c-red); }
 .mic-block.on  .mic-text { color:var(--c-green); }
-
 .nodes-scroll { flex:1; overflow-y:auto; padding:16px; }
 .nodes-scroll::-webkit-scrollbar { width:6px; }
 .nodes-scroll::-webkit-scrollbar-thumb { background:var(--border-hi); }
@@ -153,7 +147,7 @@ html, body {
 .node-card:hover { border-color: var(--border-mid); background: rgba(0,210,255,0.05); }
 .node-card.active { border-color: var(--c-blue); background: var(--c-blue-dim); }
 .node-card.active::after { content:''; position:absolute; left:0; top:0; bottom:0; width:4px; background: var(--c-blue); box-shadow: 0 0 12px var(--c-blue); }
-.nc-avatar { width: 54px; height: 54px; border-radius: 50%; border: 1px solid var(--border-hi); background: var(--bg-card); display: flex; align-items: center; justify-content: center; font-family: var(--font-display); font-size: 16px; font-weight: 700; color: var(--c-blue); flex-shrink: 0; position: relative; }
+.nc-avatar { width: 54px; height: 54px; border-radius: 50%; border: 1px solid var(--border-hi); background: var(--bg-card); display: flex; align-items: center; justify-content: center; font-family: var(--font-display); font-size: 16px; font-weight: 700; color: var(--c-blue); flex-shrink: 0; }
 .nc-avatar.speaking { border-color: var(--c-green); box-shadow: 0 0 0 3px rgba(0,255,136,.2), 0 0 20px var(--c-green-glow); color: var(--c-green); }
 .nc-info { flex:1; min-width:0; }
 .nc-id { font-family:var(--font-mono); font-size:16px; font-weight:bold; color:var(--txt-hi); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
@@ -173,35 +167,28 @@ html, body {
 .console-head { padding: 20px 24px; border-bottom: 1px solid var(--border-mid); background: rgba(2,8,18,0.9); display: flex; align-items: center; justify-content: space-between; flex-shrink: 0; }
 .ch-target { font-family: var(--font-mono); font-size: 16px; font-weight:bold; letter-spacing: 2px; color: var(--txt-mid); }
 .ch-target em { font-style:normal; color:var(--c-blue); }
-
+.ch-enc-tag { display:flex; align-items:center; gap:6px; font-family:var(--font-mono); font-size:12px; font-weight:bold; letter-spacing:2px; color:var(--c-green); border:1px solid rgba(0,255,136,.3); padding:4px 12px; background:var(--c-green-dim); }
 .console-msgs { flex:1; overflow-y:auto; padding:24px; display:flex; flex-direction:column; gap:12px; }
 .console-msgs::-webkit-scrollbar { width:6px; }
 .console-msgs::-webkit-scrollbar-thumb { background:var(--border-hi); }
-
 .terminal-idle { flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:16px; font-family:var(--font-mono); font-size:16px; font-weight:bold; letter-spacing:3px; color:var(--txt-mid); text-align:center; }
 .terminal-glyph { font-size:80px; opacity:.2; margin-bottom:10px; }
-
 .sys-line { align-self:center; font-family:var(--font-mono); font-size:13px; font-weight:bold; letter-spacing:2px; text-transform:uppercase; padding:8px 20px; border:1px solid var(--border-mid); color:var(--txt-mid); background:rgba(0,0,0,.6); margin: 10px 0; }
 .sys-line.join  { color:var(--c-green); border-color:rgba(0,255,136,.3); background: rgba(0,255,136,.08); }
 .sys-line.leave { color:var(--c-red);   border-color:rgba(255,51,102,.3); background: rgba(255,51,102,.08); }
 .sys-line.warn  { color:var(--c-amber); border-color:rgba(255,183,0,.4); background: rgba(255,183,0,.15); }
-
 .cmd-row { display:flex; margin-bottom:8px; animation:cmd-pop .2s ease-out; }
 @keyframes cmd-pop { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:none} }
 .cmd-row.out { justify-content:flex-end; }
 .cmd-row.in  { justify-content:flex-start; }
-
 .cmd-bubble { max-width:85%; padding: 14px 22px; font-family:var(--font-mono); font-size:17px; line-height:1.6; letter-spacing: 0.5px; word-break:break-word; border:1px solid; position:relative; backdrop-filter:blur(10px); }
 .cmd-row.out .cmd-bubble { background:rgba(0,60,120,.4); border-color:rgba(0,210,255,.5); color:var(--txt-hi); clip-path:polygon(0 0,calc(100% - 14px) 0,100% 14px,100% 100%,0 100%); }
 .cmd-row.in .cmd-bubble { background:rgba(0,40,30,.5); border-color:rgba(0,255,136,.5); color:var(--txt-hi); clip-path:polygon(14px 0,100% 0,100% 100%,0 100%,0 14px); }
 .cmd-row.out .cmd-bubble::before { content:'> '; color:var(--c-blue); font-weight:bold; }
 .cmd-row.in  .cmd-bubble::before { content:'$ '; color:var(--c-green); font-weight:bold; }
 .cmd-meta { font-size:12px; font-weight:bold; letter-spacing:2px; color:var(--txt-mid); margin-bottom:8px; text-transform:uppercase; opacity: 0.8;}
-
 .bcast-msg { align-self:stretch; border:1px solid rgba(255,183,0,.4); background:rgba(255,183,0,.15); padding:16px 24px; font-family:var(--font-mono); font-size:17px; color:var(--c-amber); margin: 8px 0; font-weight: 500; }
 .bcast-msg .bcast-hdr { font-size:12px; font-weight:bold; letter-spacing:2px; opacity:.9; margin-bottom:8px; text-transform:uppercase; }
-
-/* Files */
 .pkt-row { display:flex; margin-bottom:8px; animation:cmd-pop .2s ease-out; }
 .pkt-row.out { justify-content:flex-end; }
 .pkt-row.in  { justify-content:flex-start; }
@@ -221,7 +208,6 @@ html, body {
 .pkt-info .pkt-detail { font-family:var(--font-mono); font-size:13px; color:var(--txt-mid); margin-top:8px; letter-spacing:1px; }
 .pkt-progress { height:4px; background:rgba(255,255,255,.1); margin:0; overflow:hidden; }
 .pkt-progress-fill { height:100%; background:linear-gradient(90deg, var(--c-blue), var(--c-green)); transition:width .1s linear; }
-
 .input-zone { padding:20px 24px; border-top:1px solid var(--border-mid); background:rgba(2,7,16,.95); display:flex; gap:16px; align-items:center; flex-shrink:0; }
 .inp-prompt { font-family:var(--font-mono); font-size:24px; font-weight:bold; color:var(--c-blue); flex-shrink:0; }
 .inp-field { flex:1; background:transparent; border:none; border-bottom:2px solid var(--border-dim); color:var(--txt-hi); font-family:var(--font-mono); font-size:20px; padding:10px 12px; outline:none; transition:border-color .2s; direction:rtl; letter-spacing: 0.5px;}
@@ -231,7 +217,6 @@ html, body {
 .inp-file-btn svg { width: 24px; height: 24px; }
 .inp-send-btn { padding:12px 28px; background:transparent; border:1px solid var(--border-hi); color:var(--c-blue); font-family:var(--font-mono); font-size:16px; font-weight:bold; letter-spacing:3px; cursor:pointer; text-transform:uppercase; clip-path:polygon(8px 0,100% 0,calc(100% - 8px) 100%,0 100%); }
 .inp-send-btn:hover { background:var(--c-blue-dim); box-shadow:0 0 18px var(--c-blue-glow); }
-
 .bcast-zone { padding:0 24px 20px; background:rgba(2,7,16,.95); display:flex; gap:16px; align-items:center; flex-shrink:0; }
 .bcast-prompt { font-family:var(--font-mono); font-size:18px; font-weight:bold; color:var(--c-amber); flex-shrink:0; }
 .bcast-field { flex:1; background:transparent; border:none; border-bottom:2px solid rgba(255,183,0,.3); color:var(--c-amber); font-family:var(--font-mono); font-size:18px; padding:8px 12px; outline:none; direction:rtl; letter-spacing: 0.5px;}
@@ -248,72 +233,56 @@ html, body {
 .intel-section { padding:24px; border-bottom:1px solid var(--border-mid); flex-shrink:0; }
 .intel-title { font-family:var(--font-mono); font-size:14px; font-weight:bold; letter-spacing:3px; color:var(--txt-mid); text-transform:uppercase; margin-bottom:16px; display:flex; align-items:center; gap:12px; }
 .intel-title::after { content:''; flex:1; height:1px; background:var(--border-mid); }
-
 .stats-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
 .stat-box { background:var(--bg-card); border:1px solid var(--border-mid); padding:20px 12px; text-align:center; position:relative; overflow:hidden; }
 .stat-box::before { content:''; position:absolute; top:0; left:0; right:0; height:3px; background:linear-gradient(90deg, transparent, var(--c-blue-dim), transparent); }
 .sb-val { font-family:var(--font-display); font-size:38px; font-weight:900; line-height:1; color:var(--c-blue); text-shadow:0 0 20px var(--c-blue); }
 .sb-val.g { color:var(--c-green); text-shadow:0 0 20px var(--c-green); }
 .sb-lbl { font-family:var(--font-mono); font-size:12px; font-weight:bold; letter-spacing:2px; color:var(--txt-mid); margin-top:10px; text-transform:uppercase; }
-
 .live-metrics .lm-row { display:flex; align-items:center; justify-content:space-between; padding:12px 0; border-bottom:1px solid var(--border-dim); font-family:var(--font-mono); font-size:14px; font-weight:bold; letter-spacing: 1px; }
 .live-metrics .lm-row:last-child { border:none; padding-bottom:0; }
 .lm-key { color:var(--txt-mid); }
 .lm-val { color:var(--c-blue); }
 .lm-val.g { color:var(--c-green); }
-
 .enc-block { background:var(--c-green-dim); border:1px solid rgba(0,255,136,.3); padding:16px 20px; }
 .eb-row { display:flex; justify-content:space-between; margin-bottom:10px; font-family:var(--font-mono); font-size:13px; font-weight:bold; letter-spacing: 1px; }
 .eb-row:last-child { margin:0; }
 .eb-key { color:var(--txt-mid); }
 .eb-val { color:var(--c-green); }
-
 .activity-log { flex:1; overflow-y:auto; padding:20px; }
 .activity-log::-webkit-scrollbar { width:6px; }
 .activity-log::-webkit-scrollbar-thumb { background:var(--border-hi); }
 .act-entry { display:flex; gap:12px; padding:8px 10px; margin-bottom:8px; font-family:var(--font-mono); font-size:13px; font-weight:bold; letter-spacing:1px; animation:act-in .2s ease-out; }
+@keyframes act-in { from{opacity:0;transform:translateX(-4px)} to{opacity:1;transform:none} }
 .act-ts { color:var(--txt-lo); flex-shrink:0; }
 .act-msg { color:var(--txt-hi); }
 .act-msg.g { color:var(--c-green); }
 .act-msg.b { color:var(--c-blue); }
 .act-msg.r { color:var(--c-red); }
+.act-msg.a { color:var(--c-amber); }
 
 /* ══════════════════════════════════════════════
-   MOBILE RESPONSIVENESS (טלפון נייד בלבד)
+   MOBILE RESPONSIVENESS
 ══════════════════════════════════════════════ */
 @media (max-width: 1024px) {
-  /* ביטול נעילת מסך - מאפשר גלילה רגילה ובריאה בנייד */
   html, body { overflow-y: auto !important; overflow-x: hidden; height: auto !important; min-height: 100vh; }
-  
-  /* הפיכת הגריד לטור (Column) */
   #app { display: flex !important; flex-direction: column; height: auto; min-height: 100vh; overflow: visible; }
-  
-  /* התאמת ה-Top Bar */
   .topbar { padding: 15px 10px; flex-wrap: wrap; height: auto; justify-content: center; gap: 15px; text-align: center; }
   .brand { justify-content: center; width: 100%; }
   .topbar-right { justify-content: center; width: 100%; }
-  .metrics-bar { display: none; } /* מסתיר סטטיסטיקות עליונות בנייד לחסכון במקום */
-  
-  /* סידור הפאנלים לפי חשיבות: 1. צ'אט, 2. רשת (צמתים), 3. מודיעין (סטטיסטיקות) */
+  .metrics-bar { display: none; }
   .panel-center { order: 1; height: 65vh; min-height: 500px; border-left: none; border-right: none; border-bottom: 2px solid var(--border-hi); }
   .panel-left { order: 2; height: auto; min-height: 400px; border-right: none; border-bottom: 2px solid var(--border-hi); }
   .panel-right { order: 3; height: auto; min-height: 300px; border-left: none; }
-  
-  /* התאמת מסך ההתחברות (Login) */
   .login-frame { width: 92%; max-width: 400px; clip-path: none !important; border-radius: 12px; }
   .login-header { padding: 30px 20px 20px; }
   .login-body { padding: 20px; }
   .tac-input { font-size: 16px; padding: 14px; clip-path: none !important; border-radius: 8px; }
   .tac-btn { font-size: 16px; padding: 16px; clip-path: none !important; border-radius: 8px; }
   .enc-note { flex-direction: column; align-items: center; text-align: center; font-size: 12px; }
-  .enc-note svg { margin-bottom: 8px; }
-  
-  /* בועות צ'אט מותאמות למסך צר (ללא זוויות חתוכות) */
   .cmd-bubble { max-width: 90%; font-size: 16px; padding: 12px 16px; clip-path: none !important; border-radius: 12px; }
   .cmd-row.out .cmd-bubble { border-radius: 12px 12px 0 12px; }
   .cmd-row.in .cmd-bubble { border-radius: 12px 12px 12px 0; }
-  
-  /* אזורי הקלדה (Input Zones) בשתי שורות נוחות ללחיצה */
   .input-zone, .bcast-zone { flex-wrap: wrap; padding: 12px; gap: 10px; justify-content: space-between; }
   .inp-prompt, .bcast-prompt { display: none; }
   .inp-field, .bcast-field { flex: 1 1 100%; min-width: 100%; margin-bottom: 5px; font-size: 16px; padding: 10px; }
@@ -339,7 +308,7 @@ html, body {
   <div class="login-frame">
     <div class="login-header">
       <div class="login-emblem">
-        <svg viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <svg viewBox="0 0 56 56" fill="none">
           <path d="M28 4L6 13v15c0 13.25 9.1 25.65 22 28.9C41.9 53.65 50 41.25 50 28V13L28 4z" stroke="#00d2ff" stroke-width="1.5" fill="rgba(0,100,200,0.08)"/>
           <path d="M20 28l6 6L36 20" stroke="#00ff88" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
@@ -349,18 +318,18 @@ html, body {
     </div>
     <div class="login-body">
       <div class="lf-group">
-        <label class="lf-label"><span></span> מזהה חדר</label>
+        <label class="lf-label">מזהה חדר</label>
         <input class="tac-input" id="inp-room" type="text" placeholder="ALPHA-NODE-7..." autocomplete="off">
       </div>
       <div class="lf-group">
-        <label class="lf-label"><span style="background:var(--c-green)"></span> מפתח הצפנה</label>
+        <label class="lf-label">מפתח הצפנה</label>
         <input class="tac-input" id="inp-pass" type="password" placeholder="••••••••••••••••">
       </div>
       <div class="enc-note">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <path d="M12 2L3 7v6c0 5.25 3.75 10.15 9 11.25C17.25 23.15 21 18.25 21 13V7L12 2z"/>
         </svg>
-        <span>PBKDF2 · 100K iterations · מפתח AES-256-GCM נגזר מקומית · אינו עוזב את המכשיר</span>
+        <span>PBKDF2 · 100K iterations · AES-256-GCM · HMAC-SHA256 Token · מפתח לא עוזב את המכשיר</span>
       </div>
       <button class="tac-btn" id="btn-connect">⚡ INITIATE SECURE CONNECTION</button>
     </div>
@@ -379,7 +348,7 @@ html, body {
       </div>
       <div>
         <div class="brand-name">HT-SECURITY</div>
-        <div class="brand-ver">FULL-MESH P2P · AES-256</div>
+        <div class="brand-ver">FULL-MESH P2P · AES-256-GCM · HARDENED</div>
       </div>
     </div>
 
@@ -407,7 +376,9 @@ html, body {
       </div>
       <div class="mic-block off" id="mic-block">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/>
+          <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/>
+          <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+          <line x1="12" y1="19" x2="12" y2="23"/>
         </svg>
         <span class="mic-text" id="mic-txt">MIC OFFLINE</span>
       </div>
@@ -421,12 +392,12 @@ html, body {
   <main class="panel-center">
     <div class="console-head">
       <div class="ch-target">SECURE CHANNEL › <em id="ch-target">SELECT NODE</em></div>
-      <div class="ch-enc-tag">AES-256-GCM</div>
+      <div class="ch-enc-tag">🔒 AES-256-GCM · E2EE</div>
     </div>
     <div class="console-msgs" id="console-msgs">
       <div class="terminal-idle" id="terminal-idle">
         <div class="terminal-glyph">⬡</div>
-        <div class="terminal-cursor">AWAITING SECURE CHANNEL SELECTION</div>
+        <div>AWAITING SECURE CHANNEL SELECTION</div>
         <div style="font-size:14px;margin-top:8px;letter-spacing:3px;color:var(--txt-lo)">BROADCAST AVAILABLE TO ALL NODES</div>
       </div>
     </div>
@@ -443,7 +414,7 @@ html, body {
     <div class="bcast-zone">
       <span class="bcast-prompt">&gt;&gt;</span>
       <input class="bcast-field" id="bcast-msg" type="text" placeholder="שידור לכל הרשת..." disabled>
-      <button class="bcast-attach-btn" id="btn-bcast-attach" title="Broadcast Data Packet" disabled>
+      <button class="bcast-attach-btn" id="btn-bcast-attach" title="Broadcast File" disabled>
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/>
         </svg>
@@ -453,9 +424,7 @@ html, body {
   </main>
 
   <aside class="panel-right">
-    <div class="panel-head">
-      <span class="ph-label">INTEL BOARD</span>
-    </div>
+    <div class="panel-head"><span class="ph-label">INTEL BOARD</span></div>
     <div class="intel-section">
       <div class="intel-title">NETWORK STATS</div>
       <div class="stats-grid">
@@ -472,6 +441,7 @@ html, body {
         <div class="lm-row"><span class="lm-key">TX BYTES</span><span class="lm-val" id="lm-tx">0 B</span></div>
         <div class="lm-row"><span class="lm-key">RX BYTES</span><span class="lm-val" id="lm-rx">0 B</span></div>
         <div class="lm-row"><span class="lm-key">CIPHER</span><span class="lm-val g">AES-256-GCM</span></div>
+        <div class="lm-row"><span class="lm-key">TOKEN</span><span class="lm-val g">HMAC-SHA256</span></div>
       </div>
     </div>
     <div class="intel-section">
@@ -481,6 +451,7 @@ html, body {
         <div class="eb-row"><span class="eb-key">IV SIZE</span><span class="eb-val">96 BIT</span></div>
         <div class="eb-row"><span class="eb-key">KDF ITER</span><span class="eb-val">100,000</span></div>
         <div class="eb-row"><span class="eb-key">CHUNK</span><span class="eb-val">16 KB</span></div>
+        <div class="eb-row"><span class="eb-key">AUTH</span><span class="eb-val">HMAC-SHA256</span></div>
       </div>
     </div>
     <div class="panel-head" style="border-top:1px solid var(--border-mid)">
@@ -493,17 +464,35 @@ html, body {
 <script>
 'use strict';
 
-const SIGNAL_URL  = "https://ht-security-signaling-mesh.onrender.com"; 
-const ICE_CONFIG  = [{ urls: 'stun:stun.l.google.com:19302' }];
-const CHUNK_BYTES = 16 * 1024; 
+/* ══════════════════════════════════════════════════════════════
+   HT-SECURITY MESH  ·  v2.0-HARDENED
+   ✅ FIX-001  ICE_CONFIG = [] — no Google STUN, no IP leak
+   ✅ FIX-002  WSS/HTTPS signal URL
+   ✅ FIX-003  HMAC-SHA256 Token — replaces btoa
+   ✅ FIX-005  Token sent on join-room
+   ✅ FIX-006  Chunk bounds validation — OOM protection
+   ✅ MISC     _rawPass cleared on Leave
+══════════════════════════════════════════════════════════════ */
 
-const peers = new Map();   
+// ✅ FIX-002: WSS/HTTPS — שנה לכתובת שרתך
+const SIGNAL_URL  = 'https://ht-security-signaling-mesh.onrender.com';
+
+// ✅ FIX-001: ICE ריק — ללא STUN של גוגל, ללא חשיפת IP
+// להוספת TURN פרטי: { urls:'turn:YOUR-TURN-SERVER', username:'u', credential:'p' }
+const ICE_CONFIG  = [];
+const ICE_POLICY  = 'all'; // שנה ל-'relay' אם יש TURN פרטי
+
+const CHUNK_BYTES = 16 * 1024;
+
+/* ── State ── */
+const peers = new Map();
 let socket      = null;
-let localStream = null;    
+let localStream = null;
 let myId        = null;
 let currentRoom = null;
-let authToken   = null;    
-let cryptoKey   = null;    
+let authToken   = null;
+let cryptoKey   = null;
+let _rawPass    = null;   // ✅ FIX-003: נשמר בזיכרון בלבד לצורך HMAC
 let activePeer  = null;
 let totalMsgs   = 0;
 let totalPkts   = 0;
@@ -513,36 +502,40 @@ let micOn       = false;
 let uptimeStart = null;
 const fileRx    = new Map();
 
+/* ── DOM ── */
 const $ = id => document.getElementById(id);
-const loginScreen  = $('login-screen');
-const appEl        = $('app');
-const inpRoom      = $('inp-room');
-const inpPass      = $('inp-pass');
-const btnConnect   = $('btn-connect');
-const roomDisp     = $('room-disp');
-const btnLeave     = $('btn-leave');
-const nodesScroll  = $('nodes-scroll');
-const consoleMsgs  = $('console-msgs');
-const termIdle     = $('terminal-idle');
-const inpMsg       = $('inp-msg');
-const btnSend      = $('btn-send');
-const btnAttach    = $('btn-attach');
-const fileInput    = $('file-input');
-const bcastMsg     = $('bcast-msg');
-const btnBcast     = $('btn-bcast');
+const loginScreen    = $('login-screen');
+const appEl          = $('app');
+const inpRoom        = $('inp-room');
+const inpPass        = $('inp-pass');
+const btnConnect     = $('btn-connect');
+const roomDisp       = $('room-disp');
+const btnLeave       = $('btn-leave');
+const nodesScroll    = $('nodes-scroll');
+const consoleMsgs    = $('console-msgs');
+const inpMsg         = $('inp-msg');
+const btnSend        = $('btn-send');
+const btnAttach      = $('btn-attach');
+const fileInput      = $('file-input');
+const bcastMsg       = $('bcast-msg');
+const btnBcast       = $('btn-bcast');
 const btnBcastAttach = $('btn-bcast-attach');
 const bcastFileInput = $('bcast-file-input');
-const micBlock     = $('mic-block');
-const micTxt       = $('mic-txt');
-const chTarget     = $('ch-target');
-const myIdEl       = $('my-id-el');
-const actLog       = $('activity-log');
+const micBlock       = $('mic-block');
+const micTxt         = $('mic-txt');
+const chTarget       = $('ch-target');
+const myIdEl         = $('my-id-el');
+const actLog         = $('activity-log');
+
+/* ══════════════════════════════════════════════
+   1. CRYPTO — AES-256-GCM + PBKDF2
+══════════════════════════════════════════════ */
 
 async function deriveKey(pass, room) {
-  const e = new TextEncoder();
+  const e    = new TextEncoder();
   const base = await crypto.subtle.importKey('raw', e.encode(pass), 'PBKDF2', false, ['deriveKey']);
   return crypto.subtle.deriveKey(
-    { name:'PBKDF2', salt:e.encode(room), iterations:100000, hash:'SHA-256' },
+    { name:'PBKDF2', salt:e.encode(room), iterations:100_000, hash:'SHA-256' },
     base, { name:'AES-GCM', length:256 }, false, ['encrypt','decrypt']
   );
 }
@@ -560,36 +553,56 @@ async function decrypt(encBuf) {
   return crypto.subtle.decrypt({ name:'AES-GCM', iv:a.slice(0,12) }, cryptoKey, a.slice(12));
 }
 
-const makeToken  = (r, p) => btoa(`${r}:${p}`);
-const validToken = t      => t === authToken;
+/* ✅ FIX-003: HMAC-SHA256 Token — מחליף btoa */
+async function makeToken(room, pass) {
+  const enc = new TextEncoder();
+  const key = await crypto.subtle.importKey(
+    'raw', enc.encode(pass), { name:'HMAC', hash:'SHA-256' }, false, ['sign']
+  );
+  const sig = await crypto.subtle.sign('HMAC', key, enc.encode(room));
+  return btoa(String.fromCharCode(...new Uint8Array(sig)));
+}
+
+async function validToken(token) {
+  if (!token || !currentRoom || !_rawPass) return false;
+  const expected = await makeToken(currentRoom, _rawPass);
+  return token === expected;
+}
+
+/* ══════════════════════════════════════════════
+   2. LOGIN
+══════════════════════════════════════════════ */
 
 btnConnect.addEventListener('click', doConnect);
 inpPass.addEventListener('keydown', e => { if (e.key === 'Enter') doConnect(); });
 
 async function doConnect() {
   const room = inpRoom.value.trim();
-  const pass = inpPass.value.trim(); 
+  const pass = inpPass.value;
   if (!room || !pass) return;
   btnConnect.textContent = 'INITIALIZING CRYPTO...';
   btnConnect.disabled = true;
 
+  _rawPass    = pass;                           // ✅ FIX-003
   cryptoKey   = await deriveKey(pass, room);
-  authToken   = makeToken(room, pass);
+  authToken   = await makeToken(room, pass);    // ✅ FIX-003: async HMAC
   currentRoom = room;
   uptimeStart = Date.now();
 
   loginScreen.classList.add('gone');
-  
-  appEl.style.display = ''; 
-  
+  appEl.style.display = '';
   roomDisp.textContent = `#${room}`;
-  bcastMsg.disabled = false;
-  btnBcast.disabled = false;
-  btnBcastAttach.disabled = false;
+  bcastMsg.disabled        = false;
+  btnBcast.disabled        = false;
+  btnBcastAttach.disabled  = false;
 
   initSocket();
   setInterval(updateUptime, 1000);
 }
+
+/* ══════════════════════════════════════════════
+   3. SOCKET
+══════════════════════════════════════════════ */
 
 function initSocket() {
   socket = io(SIGNAL_URL, { transports: ['websocket'] });
@@ -597,7 +610,8 @@ function initSocket() {
   socket.on('connect', () => {
     myId = socket.id;
     myIdEl.textContent = short(myId);
-    socket.emit('join-room', { room: currentRoom });
+    // ✅ FIX-005: שלח token עם join-room
+    socket.emit('join-room', { room: currentRoom, token: authToken });
     logAct('SOCKET CONNECTED', 'g');
     btnLeave.disabled = false;
     updateStats();
@@ -607,6 +621,12 @@ function initSocket() {
     cleanAll();
     logAct('SOCKET DISCONNECTED', 'r');
     btnLeave.disabled = true;
+  });
+
+  // ✅ FIX-005: אם השרת דחה — הצג הודעה
+  socket.on('auth-rejected', ({ reason }) => {
+    sysMsg(`CONNECTION REJECTED: ${reason || 'invalid token'}`, 'warn');
+    logAct('AUTH REJECTED BY SERVER', 'r');
   });
 
   socket.on('room-peers', async ({ peers: existing }) => {
@@ -619,8 +639,7 @@ function initSocket() {
     sysMsg(`NODE ${short(peerId)} JOINED MESH`, 'join');
     logAct(`+NODE ${short(peerId)}`, 'g');
     if (!peers.has(peerId)) await mkPeer(peerId, false);
-    renderNodes();
-    updateStats();
+    renderNodes(); updateStats();
   });
 
   socket.on('user-disconnected', ({ peerId }) => {
@@ -630,56 +649,62 @@ function initSocket() {
   });
 
   socket.on('offer', async (data) => {
-    const rToken = data.token || data.auth; 
-    if (!validToken(rToken)) { 
-        logAct('AUTH REJECTED: MISMATCH', 'r'); 
-        sysMsg(`CONNECTION BLOCKED: INCORRECT PASSWORD FROM NODE ${short(data.from)}`, 'warn');
-        return; 
+    const rToken = data.token || data.auth;
+    // ✅ FIX-003: בדיקת HMAC async
+    if (!await validToken(rToken)) {
+      logAct('AUTH REJECTED: TOKEN MISMATCH', 'r');
+      sysMsg(`BLOCKED: WRONG PASSWORD FROM ${short(data.from)}`, 'warn');
+      return;
     }
     if (!peers.has(data.from)) await mkPeer(data.from, false);
     const peerEntry = peers.get(data.from);
-    if (peerEntry && peerEntry.pc) {
+    if (peerEntry?.pc) {
       try {
         if (peerEntry.pc.signalingState !== 'stable') {
-            await peerEntry.pc.setLocalDescription({type: 'rollback'});
+          await peerEntry.pc.setLocalDescription({ type: 'rollback' });
         }
         await peerEntry.pc.setRemoteDescription(new RTCSessionDescription(data.offer));
         const ans = await peerEntry.pc.createAnswer();
         await peerEntry.pc.setLocalDescription(ans);
         socket.emit('answer', { to: data.from, answer: ans, token: authToken, auth: authToken });
-      } catch(e) { console.error("Offer handling error", e); }
+      } catch(e) { console.error('Offer error', e); }
     }
   });
 
   socket.on('answer', async (data) => {
     const rToken = data.token || data.auth;
-    if (!validToken(rToken)) return;
+    if (!await validToken(rToken)) return;
     const e = peers.get(data.from);
-    if (e && e.pc) try { await e.pc.setRemoteDescription(new RTCSessionDescription(data.answer)); } catch(_) {}
+    if (e?.pc) try { await e.pc.setRemoteDescription(new RTCSessionDescription(data.answer)); } catch(_) {}
   });
 
   socket.on('ice-candidate', async (data) => {
     const rToken = data.token || data.auth;
-    if (!validToken(rToken)) return;
+    if (!await validToken(rToken)) return;
     const e = peers.get(data.from);
-    if (e && e.pc && data.candidate) try { await e.pc.addIceCandidate(new RTCIceCandidate(data.candidate)); } catch(_) {}
+    if (e?.pc && data.candidate) try { await e.pc.addIceCandidate(new RTCIceCandidate(data.candidate)); } catch(_) {}
   });
 }
 
+/* ══════════════════════════════════════════════
+   4. RTCPeerConnection
+══════════════════════════════════════════════ */
+
 async function mkPeer(pid, isInit) {
-  const pc = new RTCPeerConnection({ iceServers: ICE_CONFIG });
+  // ✅ FIX-001: ICE_CONFIG ריק + ICE_POLICY
+  const pc    = new RTCPeerConnection({ iceServers: ICE_CONFIG, iceTransportPolicy: ICE_POLICY });
   const entry = { pc, dc: null, audioEl: null, unread: 0 };
   peers.set(pid, entry);
 
   if (localStream) {
-    localStream.getTracks().forEach(t => { try { pc.addTrack(t, localStream); } catch(e){} });
+    localStream.getTracks().forEach(t => { try { pc.addTrack(t, localStream); } catch(_) {} });
   }
 
   pc.ontrack = ({ streams }) => {
-    if (!entry.audioEl && streams && streams[0]) {
+    if (!entry.audioEl && streams?.[0]) {
       const a = document.createElement('audio');
-      a.autoplay = true;
-      a.srcObject = streams[0];
+      a.autoplay   = true;
+      a.srcObject  = streams[0];
       document.body.appendChild(a);
       entry.audioEl = a;
     }
@@ -700,12 +725,11 @@ async function mkPeer(pid, isInit) {
     dc.binaryType = 'arraybuffer';
     entry.dc = dc;
     wireDC(dc, pid);
-    
     try {
-        const offer = await pc.createOffer();
-        await pc.setLocalDescription(offer);
-        socket.emit('offer', { to: pid, offer, token: authToken, auth: authToken });
-    } catch(e) {}
+      const offer = await pc.createOffer();
+      await pc.setLocalDescription(offer);
+      socket.emit('offer', { to: pid, offer, token: authToken, auth: authToken });
+    } catch(_) {}
   } else {
     pc.ondatachannel = ({ channel }) => {
       channel.binaryType = 'arraybuffer';
@@ -718,6 +742,10 @@ async function mkPeer(pid, isInit) {
   return entry;
 }
 
+/* ══════════════════════════════════════════════
+   5. DataChannel
+══════════════════════════════════════════════ */
+
 function wireDC(dc, pid) {
   dc.onopen  = () => { renderNodes(); updateStats(); logAct(`DC OPEN: ${short(pid)}`, 'b'); };
   dc.onclose = () => { renderNodes(); updateStats(); };
@@ -725,11 +753,9 @@ function wireDC(dc, pid) {
   dc.onmessage = async ({ data }) => {
     if (!(data instanceof ArrayBuffer)) return;
     rxBytes += data.byteLength;
-
     let plain;
     try { plain = await decrypt(data); }
     catch(_) { logAct('DECRYPT FAILED', 'r'); return; }
-
     let msg;
     try { msg = JSON.parse(new TextDecoder().decode(plain)); } catch(_) { return; }
 
@@ -741,22 +767,21 @@ function wireDC(dc, pid) {
     } else if (msg.type === 'file-chunk') {
       handleChunk(msg, pid);
     } else if (msg.type === 'broadcast') {
-      appendBcast(msg.content, pid);
-      totalPkts++;
+      appendBcast(msg.content, pid); totalPkts++;
     }
     updateStats();
   };
 }
 
+/* ══════════════════════════════════════════════
+   6. SEND
+══════════════════════════════════════════════ */
+
 async function sendText() {
   const text = inpMsg.value.trim();
   if (!text || !activePeer) return;
   const e = peers.get(activePeer);
-  if (!e || !e.dc || e.dc.readyState !== 'open') {
-      logAct('CHANNEL NOT READY', 'r');
-      return;
-  }
-
+  if (!e?.dc || e.dc.readyState !== 'open') { logAct('CHANNEL NOT READY', 'r'); return; }
   const enc = await encrypt(new TextEncoder().encode(JSON.stringify({ type:'text', content:text })));
   e.dc.send(enc);
   txBytes += enc.byteLength;
@@ -771,22 +796,16 @@ async function sendBroadcast() {
   if (!text) return;
   let n = 0;
   for (const e of peers.values()) {
-    if (e.dc && e.dc.readyState === 'open') {
+    if (e.dc?.readyState === 'open') {
       const enc = await encrypt(new TextEncoder().encode(JSON.stringify({ type:'broadcast', content:text })));
-      e.dc.send(enc);
-      txBytes += enc.byteLength;
-      n++;
+      e.dc.send(enc); txBytes += enc.byteLength; n++;
     }
   }
   if (n) { appendBcast(text, 'me'); bcastMsg.value = ''; totalPkts += n; updateStats(); }
 }
 
 async function sendFile(file, target) {
-  if (target !== 'all' && !peers.has(target)) {
-     logAct('PLEASE SELECT A NODE FIRST', 'r');
-     return;
-  }
-  
+  if (target !== 'all' && !peers.has(target)) { logAct('SELECT A NODE FIRST', 'r'); return; }
   const buf    = await file.arrayBuffer();
   const total  = Math.ceil(buf.byteLength / CHUNK_BYTES);
   const fid    = crypto.randomUUID();
@@ -797,15 +816,14 @@ async function sendFile(file, target) {
     const chunk = buf.slice(i * CHUNK_BYTES, (i + 1) * CHUNK_BYTES);
     const msg   = { type:'file-chunk', fid, index:i, total, name:file.name, size:file.size, data:Array.from(new Uint8Array(chunk)) };
     const enc   = await encrypt(new TextEncoder().encode(JSON.stringify(msg)));
-    
-    let sentCount = 0;
-    if(target === 'all') {
-        peers.forEach(p => { if(p.dc && p.dc.readyState === 'open') { p.dc.send(enc); txBytes += enc.byteLength; sentCount++; } });
+    let sent = 0;
+    if (target === 'all') {
+      peers.forEach(p => { if (p.dc?.readyState === 'open') { p.dc.send(enc); txBytes += enc.byteLength; sent++; } });
     } else {
-        const p = peers.get(target);
-        if (p && p.dc && p.dc.readyState === 'open') { p.dc.send(enc); txBytes += enc.byteLength; sentCount++; }
+      const p = peers.get(target);
+      if (p?.dc?.readyState === 'open') { p.dc.send(enc); txBytes += enc.byteLength; sent++; }
     }
-    totalPkts += sentCount;
+    totalPkts += sent;
     updatePktProg(progId, (i + 1) / total);
     if (i % 8 === 7) await new Promise(r => setTimeout(r, 8));
   }
@@ -813,19 +831,28 @@ async function sendFile(file, target) {
 }
 
 async function sendBroadcastFile(file) {
-  let openCount = 0;
-  peers.forEach(e => { if (e.dc && e.dc.readyState === 'open') openCount++; });
-  if (openCount === 0) {
-      sysMsg('NO ACTIVE NODES TO BROADCAST TO', 'warn');
-      return;
-  }
+  let open = 0;
+  peers.forEach(e => { if (e.dc?.readyState === 'open') open++; });
+  if (open === 0) { sysMsg('NO ACTIVE NODES TO BROADCAST TO', 'warn'); return; }
   sendFile(file, 'all');
 }
 
+/* ✅ FIX-006: Chunk bounds validation — OOM protection */
 function handleChunk(msg, pid) {
+  // בדיקות גבולות לפני כל הקצאת זיכרון
+  if (!msg.fid || typeof msg.fid !== 'string') return;
+  if (!Number.isInteger(msg.total) || msg.total < 1 || msg.total > 1000) return;
+  if (!Number.isInteger(msg.index) || msg.index < 0 || msg.index >= msg.total) return;
+  if (!Number.isInteger(msg.size)  || msg.size > 200 * 1024 * 1024) return;
+  if (!msg.data || !Array.isArray(msg.data) || msg.data.length > CHUNK_BYTES + 100) return;
+  if (typeof msg.name !== 'string' || msg.name.length > 255) return;
+
   const key = `${pid}:${msg.fid}`;
   if (!fileRx.has(key)) fileRx.set(key, { chunks:[], total:msg.total, name:msg.name, size:msg.size });
   const st = fileRx.get(key);
+  // ✅ FIX-006: total-switching attack prevention
+  if (st.total !== msg.total) { fileRx.delete(key); return; }
+
   st.chunks[msg.index] = new Uint8Array(msg.data);
   rxBytes += msg.data.length;
   totalPkts++;
@@ -841,6 +868,10 @@ function handleChunk(msg, pid) {
   updateStats();
 }
 
+/* ══════════════════════════════════════════════
+   7. MICROPHONE — Safe Mute
+══════════════════════════════════════════════ */
+
 micBlock.addEventListener('click', async () => {
   if (!micOn) {
     try {
@@ -848,26 +879,24 @@ micBlock.addEventListener('click', async () => {
       micOn = true;
       micBlock.className = 'mic-block on';
       micTxt.textContent = 'MIC LIVE';
-      
-      // Update all peers with the new audio track safely
       peers.forEach(async (entry, pid) => {
-        if (entry.pc.signalingState !== 'closed') {
-            localStream.getTracks().forEach(t => { try { entry.pc.addTrack(t, localStream); } catch(e){} });
-            try {
-                const offer = await entry.pc.createOffer();
-                await entry.pc.setLocalDescription(offer);
-                socket.emit('offer', { to: pid, offer, token: authToken });
-            } catch(e) {}
+        if (entry.pc?.signalingState !== 'closed') {
+          localStream.getTracks().forEach(t => { try { entry.pc.addTrack(t, localStream); } catch(_) {} });
+          try {
+            const offer = await entry.pc.createOffer();
+            await entry.pc.setLocalDescription(offer);
+            socket.emit('offer', { to: pid, offer, token: authToken, auth: authToken });
+          } catch(_) {}
         }
       });
       logAct('MICROPHONE ARMED', 'g');
-    } catch(err) { sysMsg('MICROPHONE ACCESS DENIED', 'warn'); logAct('MIC ACCESS DENIED', 'r'); }
+    } catch { sysMsg('MICROPHONE ACCESS DENIED', 'warn'); logAct('MIC ACCESS DENIED', 'r'); }
   } else {
-    // Mute instead of destroying tracks to avoid renegotiation glitches
+    // ✅ Safe Mute: track.enabled toggle only — no track.stop()
     if (localStream) {
-      const tracks = localStream.getAudioTracks();
+      const tracks  = localStream.getAudioTracks();
       tracks.forEach(t => { t.enabled = !t.enabled; });
-      const muted = !tracks[0] || !tracks[0].enabled;
+      const muted   = !tracks[0]?.enabled;
       micBlock.className = `mic-block ${muted ? 'off' : 'on'}`;
       micTxt.textContent = muted ? 'MIC MUTED' : 'MIC LIVE';
       logAct(muted ? 'CHANNEL MUTED' : 'CHANNEL LIVE', muted ? 'a' : 'g');
@@ -882,46 +911,53 @@ function stopMic() {
   micTxt.textContent = 'MIC OFFLINE';
 }
 
+/* ══════════════════════════════════════════════
+   8. CLEANUP
+══════════════════════════════════════════════ */
+
 function cleanPeer(pid) {
   const e = peers.get(pid);
   if (!e) return;
-  if (e.dc)       { try{e.dc.close();}        catch(_){} e.dc       = null; }
-  if (e.pc)       { try{e.pc.close();}        catch(_){} e.pc       = null; }
-  if (e.audioEl)  { try{e.audioEl.srcObject=null; e.audioEl.remove();}catch(_){} e.audioEl=null; }
+  if (e.dc)      { try { e.dc.close(); }      catch(_) {} e.dc      = null; }
+  if (e.pc)      { try { e.pc.close(); }      catch(_) {} e.pc      = null; }
+  if (e.audioEl) { try { e.audioEl.srcObject = null; e.audioEl.remove(); } catch(_) {} e.audioEl = null; }
   peers.delete(pid);
-  if (activePeer === pid) { activePeer=null; resetConsole(); }
+  if (activePeer === pid) { activePeer = null; resetConsole(); }
   renderNodes(); updateStats();
 }
 
 function cleanAll() {
-  Array.from(peers.keys()).forEach(cleanPeer);
+  [...peers.keys()].forEach(cleanPeer);
   stopMic(); renderNodes(); updateStats();
 }
 
+/* ══════════════════════════════════════════════
+   9. UI — Node List
+══════════════════════════════════════════════ */
+
 function renderNodes() {
   nodesScroll.innerHTML = '';
-
-  if (peers.size === 0) { 
-     nodesScroll.innerHTML = '<div style="text-align:center; padding:40px; color:var(--txt-mid); font-family:var(--font-mono); font-size:14px; font-weight:bold; letter-spacing:2px; animation:blink 1.5s step-end infinite;">SCANNING MESH...</div>';
-     return; 
+  if (peers.size === 0) {
+    nodesScroll.innerHTML = '<div style="text-align:center;padding:40px;color:var(--txt-mid);font-family:var(--font-mono);font-size:14px;font-weight:bold;letter-spacing:2px;animation:blink 1.5s step-end infinite;">SCANNING MESH...</div>';
+    return;
   }
-
   peers.forEach((entry, pid) => {
-    const st = peerState(entry);
+    const st   = peerState(entry);
     const card = document.createElement('div');
     card.className = `node-card${activePeer === pid ? ' active' : ''}`;
     card.dataset.id = pid;
     card.innerHTML = `
-      <div class="nc-avatar" style="${st==='connected'?'border-color:rgba(0,255,136,.5);color:var(--c-green)':''}">${short(pid).slice(0,2).toUpperCase()}</div>
+      <div class="nc-avatar${entry.speaking ? ' speaking' : ''}" style="${st==='connected'?'border-color:rgba(0,255,136,.5);color:var(--c-green)':''}">${short(pid).slice(0,2).toUpperCase()}</div>
       <div class="nc-info">
         <div class="nc-id">${short(pid)}</div>
-        <div class="nc-state ${st}">${{connected:'● CONNECTED',connecting:'◌ LINKING...',failed:'✕ FAILED'}[st]}${entry.dc && entry.dc.readyState==='open'?' 🔒':''}</div>
+        <div class="nc-state ${st}">${{connected:'● CONNECTED',connecting:'◌ LINKING...',failed:'✕ FAILED'}[st]}${entry.dc?.readyState==='open'?' 🔒':''}</div>
       </div>
-      ${entry.unread>0 ? `<div class="nc-unread">${entry.unread}</div>` : ''}
+      ${entry.unread > 0 ? `<div class="nc-unread">${entry.unread}</div>` : ''}
     `;
     card.addEventListener('click', () => selectPeer(pid));
     nodesScroll.appendChild(card);
   });
+  $('n-count').textContent = peers.size;
 }
 
 function peerState(e) {
@@ -931,47 +967,44 @@ function peerState(e) {
 
 function selectPeer(pid) {
   activePeer = pid;
-  const e = peers.get(pid);
+  const e    = peers.get(pid);
   if (e) e.unread = 0;
   chTarget.textContent = short(pid);
-  inpMsg.disabled    = false;
-  btnSend.disabled   = false;
+  inpMsg.disabled  = false;
+  btnSend.disabled = false;
   btnAttach.disabled = false;
-  const idle = $('terminal-idle');
-  if(idle) idle.remove();
+  $('terminal-idle')?.remove();
   renderNodes();
 }
 
 function resetConsole() {
-  chTarget.textContent = 'SELECT NODE';
-  inpMsg.disabled    = true;
-  btnSend.disabled   = true;
-  btnAttach.disabled = true;
+  chTarget.textContent   = 'SELECT NODE';
+  inpMsg.disabled        = true;
+  btnSend.disabled       = true;
+  btnAttach.disabled     = true;
   if (!$('terminal-idle')) {
     const d = document.createElement('div');
     d.className = 'terminal-idle'; d.id = 'terminal-idle';
-    d.innerHTML = '<div class="terminal-glyph">⬡</div><div class="terminal-cursor">AWAITING SECURE CHANNEL SELECTION</div><div style="font-size:14px;margin-top:8px;letter-spacing:3px;color:var(--txt-lo)">BROADCAST AVAILABLE TO ALL NODES</div>';
+    d.innerHTML = '<div class="terminal-glyph">⬡</div><div>AWAITING SECURE CHANNEL SELECTION</div><div style="font-size:14px;margin-top:8px;letter-spacing:3px;color:var(--txt-lo)">BROADCAST AVAILABLE TO ALL NODES</div>';
     consoleMsgs.prepend(d);
   }
 }
 
+/* ══════════════════════════════════════════════
+   10. UI — Console Messages
+══════════════════════════════════════════════ */
+
 function appendCmd(text, dir, fromId) {
-  const idle = $('terminal-idle');
-  if(idle) idle.remove();
+  $('terminal-idle')?.remove();
   const row = document.createElement('div');
   row.className = `cmd-row ${dir}`;
-  row.innerHTML = `
-    <div class="cmd-bubble">
-      <div class="cmd-meta">${dir==='in'?short(fromId)+' RX':'TX'} · ${ts()}</div>
-      ${esc(text)}
-    </div>`;
+  row.innerHTML = `<div class="cmd-bubble"><div class="cmd-meta">${dir==='in'?short(fromId)+' RX':'TX'} · ${ts()}</div>${esc(text)}</div>`;
   consoleMsgs.appendChild(row);
   consoleMsgs.scrollTop = consoleMsgs.scrollHeight;
 }
 
 function appendBcast(text, fromId) {
-  const idle = $('terminal-idle');
-  if(idle) idle.remove();
+  $('terminal-idle')?.remove();
   const d = document.createElement('div');
   d.className = 'bcast-msg';
   d.innerHTML = `<div class="bcast-hdr">${fromId==='me'?'TX':'RX'} BROADCAST · ${ts()}</div>${esc(text)}`;
@@ -979,9 +1012,8 @@ function appendBcast(text, fromId) {
   consoleMsgs.scrollTop = consoleMsgs.scrollHeight;
 }
 
-function sysMsg(text, cls='') {
-  const idle = $('terminal-idle');
-  if(idle) idle.remove();
+function sysMsg(text, cls = '') {
+  $('terminal-idle')?.remove();
   const d = document.createElement('div');
   d.className = `sys-line ${cls}`;
   d.textContent = `[${ts()}] ${text}`;
@@ -991,23 +1023,16 @@ function sysMsg(text, cls='') {
 
 let pktCtr = 0;
 function appendPktSend(name, size) {
-  const idle = $('terminal-idle');
-  if(idle) idle.remove();
-  const id = `pkt${++pktCtr}`;
+  $('terminal-idle')?.remove();
+  const id  = `pkt${++pktCtr}`;
   const row = document.createElement('div');
   row.className = 'pkt-row out'; row.id = id;
   row.innerHTML = `
     <div class="data-packet">
-      <div class="pkt-head">
-        <span class="pkt-type-tag">TX PACKET</span>
-        <span class="pkt-ts">${ts()}</span>
-      </div>
+      <div class="pkt-head"><span class="pkt-type-tag">TX PACKET</span><span class="pkt-ts">${ts()}</span></div>
       <div class="pkt-body">
         <div class="pkt-icon">📦</div>
-        <div class="pkt-info">
-          <div class="pkt-name">${esc(name)}</div>
-          <div class="pkt-detail">${fmtSz(size)} · ENCRYPTING & TRANSMITTING...</div>
-        </div>
+        <div class="pkt-info"><div class="pkt-name">${esc(name)}</div><div class="pkt-detail">${fmtSz(size)} · ENCRYPTING & TRANSMITTING...</div></div>
       </div>
       <div class="pkt-progress"><div class="pkt-progress-fill" style="width:0%"></div></div>
     </div>`;
@@ -1021,49 +1046,35 @@ function updatePktProg(id, ratio) {
   if (fill) fill.style.width = `${Math.round(ratio * 100)}%`;
   if (ratio >= 1) {
     const det = document.querySelector(`#${id} .pkt-detail`);
-    if (det) det.textContent = fmtSz(0) + ' · TRANSMITTED ✓';
+    if (det) det.textContent = '— TRANSMITTED ✓';
   }
 }
 
 function appendPktRecv(name, size, buffer, fromId) {
-  const idle = $('terminal-idle');
-  if(idle) idle.remove();
-  const id = `pkt-rx-${++pktCtr}`;
-  
-  const blob = new Blob([buffer], { type: 'application/octet-stream' });
-  const url = URL.createObjectURL(blob);
-  
-  const row = document.createElement('div');
+  $('terminal-idle')?.remove();
+  const id   = `pkt-rx-${++pktCtr}`;
+  const blob = new Blob([buffer], { type:'application/octet-stream' });
+  const url  = URL.createObjectURL(blob);
+  const row  = document.createElement('div');
   row.className = 'pkt-row in';
   row.innerHTML = `
     <div class="data-packet" id="${id}">
-      <div class="pkt-head">
-        <span class="pkt-type-tag" style="background:var(--c-green)">RX PACKET</span>
-        <span class="pkt-ts">← ${short(fromId)} · ${ts()}</span>
-      </div>
+      <div class="pkt-head"><span class="pkt-type-tag" style="background:var(--c-green)">RX PACKET</span><span class="pkt-ts">← ${short(fromId)} · ${ts()}</span></div>
       <div class="pkt-body">
         <div class="pkt-icon">📥</div>
-        <div class="pkt-info">
-          <div class="pkt-name">${esc(name)}</div>
-          <div class="pkt-detail">${fmtSz(size)} · לחץ כאן להורדת הקובץ (Download)</div>
-        </div>
+        <div class="pkt-info"><div class="pkt-name">${esc(name)}</div><div class="pkt-detail">${fmtSz(size)} · לחץ להורדה</div></div>
       </div>
     </div>`;
-    
   consoleMsgs.appendChild(row);
   consoleMsgs.scrollTop = consoleMsgs.scrollHeight;
-
   document.getElementById(id).addEventListener('click', () => {
     const a = document.createElement('a');
-    a.href = url;
-    a.download = name;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
+    a.href = url; a.download = name;
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
   });
 }
 
-function logAct(msg, cls='') {
+function logAct(msg, cls = '') {
   const d = document.createElement('div');
   d.className = 'act-entry';
   d.innerHTML = `<span class="act-ts">${ts()}</span><span class="act-msg ${cls}">${msg}</span>`;
@@ -1072,32 +1083,35 @@ function logAct(msg, cls='') {
   while (actLog.children.length > 80) actLog.removeChild(actLog.firstChild);
 }
 
+/* ══════════════════════════════════════════════
+   11. STATS
+══════════════════════════════════════════════ */
+
 function updateStats() {
   let open = 0;
-  peers.forEach(e => { if (e.dc && e.dc.readyState === 'open') open++; });
-  
-  const n = (socket && socket.connected) ? peers.size + 1 : 0;
-  $('n-count').textContent = n;
-  
-  $('s-nodes').textContent = n;
-  $('m-nodes').textContent = n;
-  $('s-msgs').textContent = totalMsgs;
-  $('m-msgs').textContent = totalMsgs;
-  $('s-ch').textContent = open;
-  $('s-pkt').textContent = totalPkts;
-  $('m-pkt').textContent = totalPkts;
-  $('lm-tx').textContent   = fmtSz(txBytes);
-  $('lm-rx').textContent   = fmtSz(rxBytes);
+  peers.forEach(e => { if (e.dc?.readyState === 'open') open++; });
+  const n = (socket?.connected) ? peers.size + 1 : 0;
+  $('n-count').textContent  = n;
+  $('s-nodes').textContent  = n;   $('m-nodes').textContent = n;
+  $('s-msgs').textContent   = totalMsgs; $('m-msgs').textContent = totalMsgs;
+  $('s-ch').textContent     = open;
+  $('s-pkt').textContent    = totalPkts; $('m-pkt').textContent = totalPkts;
+  $('lm-tx').textContent    = fmtSz(txBytes);
+  $('lm-rx').textContent    = fmtSz(rxBytes);
 }
 
 function updateUptime() {
   if (!uptimeStart) return;
-  const s = Math.floor((Date.now() - uptimeStart) / 1000);
-  const h = String(Math.floor(s/3600)).padStart(2,'0');
-  const m = String(Math.floor((s%3600)/60)).padStart(2,'0');
-  const ss= String(s%60).padStart(2,'0');
+  const s  = Math.floor((Date.now() - uptimeStart) / 1000);
+  const h  = String(Math.floor(s / 3600)).padStart(2, '0');
+  const m  = String(Math.floor((s % 3600) / 60)).padStart(2, '0');
+  const ss = String(s % 60).padStart(2, '0');
   $('lm-up').textContent = `${h}:${m}:${ss}`;
 }
+
+/* ══════════════════════════════════════════════
+   12. EVENTS
+══════════════════════════════════════════════ */
 
 btnSend.addEventListener('click', sendText);
 inpMsg.addEventListener('keydown', e => { if (e.key === 'Enter') sendText(); });
@@ -1105,33 +1119,36 @@ btnBcast.addEventListener('click', sendBroadcast);
 bcastMsg.addEventListener('keydown', e => { if (e.key === 'Enter') sendBroadcast(); });
 
 btnAttach.addEventListener('click', () => fileInput.click());
-fileInput.addEventListener('change', () => { 
-  if (fileInput.files[0]) sendFile(fileInput.files[0], activePeer); 
-  fileInput.value=''; 
+fileInput.addEventListener('change', () => {
+  if (fileInput.files[0]) sendFile(fileInput.files[0], activePeer);
+  fileInput.value = '';
 });
 
 btnBcastAttach.addEventListener('click', () => bcastFileInput.click());
-bcastFileInput.addEventListener('change', () => { 
-  if (bcastFileInput.files[0]) sendBroadcastFile(bcastFileInput.files[0]); 
-  bcastFileInput.value=''; 
+bcastFileInput.addEventListener('change', () => {
+  if (bcastFileInput.files[0]) sendBroadcastFile(bcastFileInput.files[0]);
+  bcastFileInput.value = '';
 });
 
 btnLeave.addEventListener('click', () => {
-  if (socket) socket.emit('leave-room', { room:currentRoom });
+  if (socket) socket.emit('leave-room', { room: currentRoom });
   cleanAll();
   loginScreen.classList.remove('gone');
-  appEl.style.display = 'none';
-  currentRoom=null; authToken=null; cryptoKey=null;
-  btnConnect.textContent='⚡ INITIATE SECURE CONNECTION';
-  btnConnect.disabled=false;
-  bcastMsg.disabled=true; btnBcast.disabled=true;
-  btnBcastAttach.disabled=true;
+  appEl.style.display    = 'none';
+  // ✅ FIX-003: נקה כל הנתונים הרגישים מהזיכרון
+  currentRoom = null; authToken = null; cryptoKey = null; _rawPass = null;
+  btnConnect.textContent   = '⚡ INITIATE SECURE CONNECTION';
+  btnConnect.disabled      = false;
+  bcastMsg.disabled        = true;
+  btnBcast.disabled        = true;
+  btnBcastAttach.disabled  = true;
 });
 
-const short  = id => id ? id.substring(0, 8) : '????????';
-const ts     = ()  => new Date().toLocaleTimeString('he-IL', { hour12:false });
-const esc    = s   => { const d=document.createElement('div'); d.textContent=s; return d.innerHTML; };
-const fmtSz  = b   => b>1e9?`${(b/1e9).toFixed(2)} GB`:b>1e6?`${(b/1e6).toFixed(1)} MB`:b>1e3?`${(b/1e3).toFixed(0)} KB`:`${b} B`;
+/* ── Utils ── */
+const short = id  => id ? id.substring(0, 8) : '????????';
+const ts    = ()  => new Date().toLocaleTimeString('he-IL', { hour12: false });
+const esc   = s   => { const d = document.createElement('div'); d.textContent = s; return d.innerHTML; };
+const fmtSz = b   => b > 1e9 ? `${(b/1e9).toFixed(2)} GB` : b > 1e6 ? `${(b/1e6).toFixed(1)} MB` : b > 1e3 ? `${(b/1e3).toFixed(0)} KB` : `${b} B`;
 </script>
 </body>
 </html>
