@@ -58,8 +58,8 @@ if (hasCerts && !IS_PROD) {
 } else {
   server = http.createServer(app);
   IS_PROD
-    ? log('[🔒] HTTP — TLS handled by platform proxy (Render/Railway)')
-    : log('[⚠️] No cert — HTTP only. Add cert.pem+key.pem for local HTTPS.');
+    ? console.log('[🔒] HTTP — TLS handled by platform proxy (Render/Railway)')
+    : console.log('[⚠️] No cert — HTTP only. Add cert.pem+key.pem for local HTTPS.');
 }
 
 // ── Socket.io ─────────────────────────────────────────────────
