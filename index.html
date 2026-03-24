@@ -23,7 +23,7 @@
   --topbar-h: 70px;
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-
+ 
 /* FIX-CSS: Use 100dvh for proper mobile viewport handling */
 html,body{
   width:100%;
@@ -36,9 +36,9 @@ html,body{
   font-size:16px;
   cursor:crosshair;
 }
-
+ 
 #file-input,#bcast-file-input{display:none!important;visibility:hidden;position:absolute;z-index:-999;width:0;height:0}
-
+ 
 .world{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
 .grid-layer{position:absolute;inset:-100px;background-image:linear-gradient(rgba(0,210,255,0.05) 1px,transparent 1px),linear-gradient(90deg,rgba(0,210,255,0.05) 1px,transparent 1px);background-size:50px 50px;animation:grid-move 25s linear infinite}
 .grid-layer-2{position:absolute;inset:-100px;background-image:linear-gradient(rgba(0,255,136,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(0,255,136,0.03) 1px,transparent 1px);background-size:200px 200px;animation:grid-move 60s linear infinite reverse}
@@ -48,7 +48,7 @@ html,body{
 .atm-blob-2{width:500px;height:500px;background:var(--c-green);bottom:-150px;right:-100px;animation:blob-drift 28s ease-in-out infinite reverse}
 @keyframes blob-drift{0%,100%{transform:translate(0,0) scale(1)}33%{transform:translate(40px,-30px) scale(1.1)}66%{transform:translate(-20px,20px) scale(0.95)}}
 .scanlines{position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(0,0,0,0.1) 3px,rgba(0,0,0,0.1) 4px)}
-
+ 
 /* ══ LOGIN SCREEN — unchanged ══ */
 .login-screen{position:fixed;inset:0;z-index:500;display:flex;align-items:center;justify-content:center;background:radial-gradient(ellipse 100% 100% at 50% 50%,rgba(0,30,60,0.85) 0%,rgba(2,8,16,0.97) 70%);backdrop-filter:blur(8px);animation:screen-in .5s ease-out}
 .login-screen.gone{display:none}
@@ -69,7 +69,7 @@ html,body{
 .enc-note{display:flex;align-items:flex-start;gap:10px;background:var(--c-green-dim);border:1px solid rgba(0,255,136,0.3);padding:14px 18px;margin-bottom:28px;font-family:var(--font-mono);font-size:13px;color:var(--c-green)}
 .tac-btn{width:100%;padding:18px 24px;background:transparent;border:1px solid var(--border-hi);color:var(--c-blue);font-family:var(--font-display);font-size:16px;font-weight:700;letter-spacing:4px;cursor:pointer;text-transform:uppercase;transition:all .15s}
 .tac-btn:hover{box-shadow:0 0 24px var(--c-blue-glow);background:rgba(0,210,255,0.08)}
-
+ 
 /* ══ APP LAYOUT — FIX: proper height calculations ══ */
 #app{
   position:relative;
@@ -84,7 +84,7 @@ html,body{
   background:var(--border-dim);
   overflow:hidden;
 }
-
+ 
 .topbar{
   grid-column:1 / -1;
   background:rgba(2,8,18,0.95);
@@ -118,7 +118,7 @@ html,body{
 .status-chip.offline{border-color:var(--txt-lo);color:var(--txt-lo);background:transparent}
 .status-chip.enc{border-color:rgba(0,210,255,0.4);color:var(--c-blue);background:var(--c-blue-dim)}
 .blink-dot{width:8px;height:8px;border-radius:50%;background:currentColor;animation:blink 1s step-end infinite}
-
+ 
 /* ══ LEFT PANEL — FIX: flex column with overflow control ══ */
 .panel-left{
   background:var(--bg-panel);
@@ -148,7 +148,7 @@ html,body{
 .mic-text{font-family:var(--font-mono);font-size:15px;font-weight:bold;letter-spacing:2px;text-transform:uppercase;flex:1}
 .mic-block.off .mic-text{color:var(--c-red)}
 .mic-block.on .mic-text{color:var(--c-green)}
-
+ 
 /* FIX: nodes-scroll takes remaining space and scrolls */
 .nodes-scroll{
   flex:1;
@@ -170,10 +170,10 @@ html,body{
 .nc-state.connecting{color:var(--c-amber);animation:blink 1s step-end infinite}
 .nc-state.failed{color:var(--c-red)}
 .nc-unread{min-width:26px;height:26px;padding:0 8px;border-radius:4px;background:var(--c-blue);color:#000;font-family:var(--font-mono);font-size:14px;font-weight:900;display:flex;align-items:center;justify-content:center}
-
+ 
 @keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
 @keyframes node-appear{from{opacity:0;transform:translateX(10px)}to{opacity:1;transform:none}}
-
+ 
 /* ══ CENTER PANEL — FIX: flex column, messages scroll ══ */
 .panel-center{
   background:rgba(3,10,20,0.85);
@@ -187,7 +187,7 @@ html,body{
 .ch-target{font-family:var(--font-mono);font-size:16px;font-weight:bold;letter-spacing:2px;color:var(--txt-mid)}
 .ch-target em{font-style:normal;color:var(--c-blue)}
 .ch-enc-tag{display:flex;align-items:center;gap:6px;font-family:var(--font-mono);font-size:12px;font-weight:bold;letter-spacing:2px;color:var(--c-green);border:1px solid rgba(0,255,136,.3);padding:4px 12px;background:var(--c-green-dim)}
-
+ 
 /* FIX: console-msgs is the only flex-growing section */
 .console-msgs{
   flex:1;
@@ -237,7 +237,7 @@ html,body{
 .pkt-info .pkt-detail{font-family:var(--font-mono);font-size:13px;color:var(--txt-mid);margin-top:8px;letter-spacing:1px}
 .pkt-progress{height:4px;background:rgba(255,255,255,.1);margin:0;overflow:hidden}
 .pkt-progress-fill{height:100%;background:linear-gradient(90deg,var(--c-blue),var(--c-green));transition:width .1s linear}
-
+ 
 /* FIX: input zones must never be clipped */
 .input-zone{padding:20px 24px;border-top:1px solid var(--border-mid);background:rgba(2,7,16,.95);display:flex;gap:16px;align-items:center;flex-shrink:0}
 .inp-prompt{font-family:var(--font-mono);font-size:24px;font-weight:bold;color:var(--c-blue);flex-shrink:0}
@@ -256,7 +256,7 @@ html,body{
 .bcast-attach-btn svg{width:20px;height:20px}
 .bcast-send-btn{padding:10px 24px;background:transparent;border:1px solid rgba(255,183,0,.5);color:var(--c-amber);font-family:var(--font-mono);font-size:14px;font-weight:bold;letter-spacing:2px;cursor:pointer;text-transform:uppercase}
 .bcast-send-btn:hover{background:rgba(255,183,0,.15);box-shadow:0 0 12px rgba(255,183,0,0.2)}
-
+ 
 /* ══ RIGHT PANEL — FIX: activity-log scrolls properly ══ */
 .panel-right{
   background:var(--bg-panel);
@@ -287,7 +287,7 @@ html,body{
 .eb-row:last-child{margin:0}
 .eb-key{color:var(--txt-mid)}
 .eb-val{color:var(--c-green)}
-
+ 
 /* FIX: activity-log takes remaining space and scrolls */
 .activity-log{
   flex:1;
@@ -305,7 +305,7 @@ html,body{
 .act-msg.b{color:var(--c-blue)}
 .act-msg.r{color:var(--c-red)}
 .act-msg.a{color:var(--c-amber)}
-
+ 
 /* ══════════════════════════════════════════════
    RESPONSIVE / MOBILE — FIX: full rewrite
 ══════════════════════════════════════════════ */
@@ -316,7 +316,7 @@ html,body{
     overflow-y: auto;
     overflow-x: hidden;
   }
-
+ 
   #app {
     display: flex;
     flex-direction: column;
@@ -326,7 +326,7 @@ html,body{
     gap: 0;
     background: var(--bg-void);
   }
-
+ 
   /* Topbar: compact, centered, multi-row */
   .topbar {
     height: auto;
@@ -340,39 +340,39 @@ html,body{
     z-index: 100;
     border-bottom: 2px solid var(--border-hi);
   }
-
+ 
   .brand {
     flex: 1 1 auto;
   }
-
+ 
   .brand-name {
     font-size: 16px;
     letter-spacing: 2px;
   }
-
+ 
   .brand-ver {
     font-size: 9px;
     letter-spacing: 2px;
   }
-
+ 
   .metrics-bar {
     display: none; /* Hidden on mobile to save space */
   }
-
+ 
   .topbar-right {
     flex-shrink: 0;
     gap: 10px;
   }
-
+ 
   .node-tag {
     font-size: 11px;
   }
-
+ 
   .status-chip {
     padding: 4px 10px;
     font-size: 10px;
   }
-
+ 
   /* Center panel: chat area, shown first */
   .panel-center {
     order: 1;
@@ -383,7 +383,7 @@ html,body{
     flex-direction: column;
     border-bottom: 2px solid var(--border-hi);
   }
-
+ 
   .console-msgs {
     flex: 1;
     min-height: 200px;
@@ -391,7 +391,7 @@ html,body{
     overflow-y: auto;
     padding: 16px;
   }
-
+ 
   .cmd-bubble {
     max-width: 90%;
     font-size: 15px;
@@ -399,10 +399,10 @@ html,body{
     clip-path: none !important;
     border-radius: 10px;
   }
-
+ 
   .cmd-row.out .cmd-bubble { border-radius: 10px 10px 0 10px; }
   .cmd-row.in  .cmd-bubble { border-radius: 10px 10px 10px 0; }
-
+ 
   /* Input zones */
   .input-zone {
     flex-wrap: wrap;
@@ -411,22 +411,22 @@ html,body{
     border-top: 1px solid var(--border-mid);
     flex-shrink: 0;
   }
-
+ 
   .inp-prompt { display: none; }
-
+ 
   .inp-field {
     flex: 1 1 100%;
     min-width: 0;
     font-size: 16px;
     padding: 10px 8px;
   }
-
+ 
   .inp-file-btn {
     width: 44px;
     height: 44px;
     flex-shrink: 0;
   }
-
+ 
   .inp-send-btn {
     flex: 1;
     clip-path: none !important;
@@ -435,29 +435,29 @@ html,body{
     font-size: 14px;
     text-align: center;
   }
-
+ 
   .bcast-zone {
     flex-wrap: wrap;
     padding: 8px 12px 14px;
     gap: 8px;
     flex-shrink: 0;
   }
-
+ 
   .bcast-prompt { display: none; }
-
+ 
   .bcast-field {
     flex: 1 1 100%;
     min-width: 0;
     font-size: 15px;
     padding: 8px;
   }
-
+ 
   .bcast-attach-btn {
     width: 40px;
     height: 40px;
     flex-shrink: 0;
   }
-
+ 
   .bcast-send-btn {
     flex: 1;
     border-radius: 6px;
@@ -465,7 +465,7 @@ html,body{
     font-size: 13px;
     text-align: center;
   }
-
+ 
   /* Left panel: node list, shown second */
   .panel-left {
     order: 2;
@@ -477,62 +477,62 @@ html,body{
     display: flex;
     flex-direction: column;
   }
-
+ 
   .room-section {
     padding: 16px;
     flex-shrink: 0;
   }
-
+ 
   .rs-row { gap: 8px; margin-bottom: 10px; }
-
+ 
   .room-display {
     font-size: 14px;
     padding: 8px 12px;
   }
-
+ 
   .tac-btn-sm {
     font-size: 12px;
     padding: 8px 12px;
     letter-spacing: 1px;
   }
-
+ 
   .mic-block {
     padding: 10px 16px;
     gap: 12px;
   }
-
+ 
   .mic-text {
     font-size: 13px;
     letter-spacing: 1px;
   }
-
+ 
   .nodes-scroll {
     max-height: 280px;
     overflow-y: auto;
     min-height: 0;
     flex: 0 0 auto;
   }
-
+ 
   .node-card {
     padding: 10px 14px;
     gap: 12px;
     margin-bottom: 6px;
   }
-
+ 
   .nc-avatar {
     width: 44px;
     height: 44px;
     font-size: 13px;
   }
-
+ 
   .nc-id {
     font-size: 14px;
   }
-
+ 
   .nc-state {
     font-size: 11px;
   }
-
+ 
   /* Right panel: intel board, shown last */
   .panel-right {
     order: 3;
@@ -543,37 +543,37 @@ html,body{
     display: flex;
     flex-direction: column;
   }
-
+ 
   .intel-section {
     padding: 16px;
     flex-shrink: 0;
   }
-
+ 
   .stats-grid {
     gap: 10px;
   }
-
+ 
   .sb-val {
     font-size: 28px;
   }
-
+ 
   .sb-lbl {
     font-size: 10px;
     margin-top: 6px;
   }
-
+ 
   .stat-box {
     padding: 14px 8px;
   }
-
+ 
   .enc-block {
     padding: 12px 14px;
   }
-
+ 
   .eb-row {
     font-size: 11px;
   }
-
+ 
   /* Activity log: scrollable area at bottom */
   .activity-log {
     max-height: 200px;
@@ -581,19 +581,19 @@ html,body{
     flex: 0 0 auto;
     padding: 12px 16px;
   }
-
+ 
   .act-entry {
     font-size: 11px;
     padding: 5px 6px;
     margin-bottom: 4px;
   }
-
+ 
   /* Live metrics: compact on mobile */
   .live-metrics .lm-row {
     font-size: 12px;
     padding: 8px 0;
   }
-
+ 
   /* Login screen adjustments for small screens */
   .login-frame {
     width: 92%;
@@ -601,29 +601,29 @@ html,body{
     clip-path: none !important;
     border-radius: 12px;
   }
-
+ 
   .login-header {
     padding: 30px 20px 20px;
   }
-
+ 
   .login-body {
     padding: 20px;
   }
-
+ 
   .tac-input {
     font-size: 16px;
     padding: 14px;
     clip-path: none !important;
     border-radius: 8px;
   }
-
+ 
   .tac-btn {
     font-size: 16px;
     padding: 16px;
     clip-path: none !important;
     border-radius: 8px;
   }
-
+ 
   .enc-note {
     flex-direction: column;
     align-items: center;
@@ -631,53 +631,53 @@ html,body{
     font-size: 11px;
     padding: 10px 12px;
   }
-
+ 
   .login-title {
     font-size: 22px;
     letter-spacing: 3px;
   }
-
+ 
   .login-emblem svg {
     width: 58px;
     height: 58px;
   }
 }
-
+ 
 /* Extra small screens */
 @media (max-width: 480px) {
   .brand-shield svg {
     width: 32px;
     height: 32px;
   }
-
+ 
   .brand-name {
     font-size: 14px;
     letter-spacing: 1px;
   }
-
+ 
   .brand-ver {
     display: none;
   }
-
+ 
   .node-tag {
     display: none;
   }
-
+ 
   .console-msgs {
     padding: 10px;
     max-height: 40dvh;
   }
-
+ 
   .cmd-bubble {
     font-size: 14px;
     padding: 8px 12px;
   }
-
+ 
   .bcast-msg {
     font-size: 14px;
     padding: 10px 14px;
   }
-
+ 
   .sys-line {
     font-size: 11px;
     padding: 6px 12px;
@@ -687,7 +687,7 @@ html,body{
 </style>
 </head>
 <body>
-
+ 
 <div class="world">
   <div class="grid-layer"></div>
   <div class="grid-layer-2"></div>
@@ -695,10 +695,10 @@ html,body{
   <div class="atm-blob atm-blob-2"></div>
   <div class="scanlines"></div>
 </div>
-
+ 
 <input type="file" id="file-input">
 <input type="file" id="bcast-file-input">
-
+ 
 <div class="login-screen" id="login-screen">
   <div class="login-frame">
     <div class="login-header">
@@ -730,9 +730,9 @@ html,body{
     </div>
   </div>
 </div>
-
+ 
 <div id="app" style="display:none">
-
+ 
   <header class="topbar">
     <div class="brand">
       <div class="brand-shield">
@@ -746,19 +746,19 @@ html,body{
         <div class="brand-ver">FULL-MESH P2P · AES-256-GCM · HARDENED</div>
       </div>
     </div>
-
+ 
     <div class="metrics-bar">
       <div class="metric-item"><div class="metric-val" id="m-nodes">0</div><div class="metric-lbl">NODES</div></div>
       <div class="metric-item"><div class="metric-val green" id="m-msgs">0</div><div class="metric-lbl">MSG TX</div></div>
       <div class="metric-item"><div class="metric-val green" id="m-pkt">0</div><div class="metric-lbl">PACKETS</div></div>
     </div>
-
+ 
     <div class="topbar-right">
       <div class="node-tag">NODE: <em id="my-id-el">--------</em></div>
       <div class="status-chip enc"><span class="blink-dot"></span> E2EE</div>
     </div>
   </header>
-
+ 
   <aside class="panel-left">
     <div class="panel-head">
       <span class="ph-label">MESH NETWORK</span>
@@ -783,7 +783,7 @@ html,body{
     </div>
     <div class="nodes-scroll" id="nodes-scroll"></div>
   </aside>
-
+ 
   <main class="panel-center">
     <div class="console-head">
       <div class="ch-target">SECURE CHANNEL › <em id="ch-target">SELECT NODE</em></div>
@@ -817,7 +817,7 @@ html,body{
       <button class="bcast-send-btn" id="btn-bcast" disabled>BROADCAST</button>
     </div>
   </main>
-
+ 
   <aside class="panel-right">
     <div class="panel-head"><span class="ph-label">INTEL BOARD</span></div>
     <div class="intel-section">
@@ -855,18 +855,18 @@ html,body{
     <div class="activity-log" id="activity-log"></div>
   </aside>
 </div>
-
+ 
 <script>
 'use strict';
-
+ 
 /* ══════════════════════════════════════════════════════════════
    HT-SECURITY MESH  ·  v3.1-FIXED (Hardened + History + File-Chunk Fix)
 ══════════════════════════════════════════════════════════════ */
-
+ 
 const SIGNAL_URL  = 'https://ht-security-signaling-mesh.onrender.com';
 const ICE_CONFIG  = [{ urls: 'stun:stun.l.google.com:19302' }];
 const CHUNK_BYTES = 16 * 1024;
-
+ 
 const peers = new Map();
 let socket      = null;
 let localStream = null;
@@ -884,7 +884,7 @@ let micOn       = false;
 let uptimeStart = null;
 const fileRx    = new Map();
 const seenNonces = new Set();
-
+ 
 const $ = id => document.getElementById(id);
 const loginScreen    = $('login-screen');
 const appEl          = $('app');
@@ -908,7 +908,7 @@ const micTxt         = $('mic-txt');
 const chTarget       = $('ch-target');
 const myIdEl         = $('my-id-el');
 const actLog         = $('activity-log');
-
+ 
 /* ── 🔒 Security: HMAC & AES ── */
 async function deriveKey(pass, room) {
   const e    = new TextEncoder();
@@ -918,7 +918,7 @@ async function deriveKey(pass, room) {
     base, { name:'AES-GCM', length:256 }, false, ['encrypt','decrypt']
   );
 }
-
+ 
 async function encrypt(plainBuf) {
   const iv = crypto.getRandomValues(new Uint8Array(12));
   const ct = await crypto.subtle.encrypt({ name:'AES-GCM', iv }, cryptoKey, plainBuf);
@@ -926,57 +926,57 @@ async function encrypt(plainBuf) {
   out.set(iv); out.set(new Uint8Array(ct), 12);
   return out.buffer;
 }
-
+ 
 async function decrypt(encBuf) {
   const a = new Uint8Array(encBuf);
   return crypto.subtle.decrypt({ name:'AES-GCM', iv:a.slice(0,12) }, cryptoKey, a.slice(12));
 }
-
+ 
 async function makeToken(room, pass) {
   const enc = new TextEncoder();
   const key = await crypto.subtle.importKey('raw', enc.encode(pass), { name:'HMAC', hash:'SHA-256' }, false, ['sign']);
   const sig = await crypto.subtle.sign('HMAC', key, enc.encode(room));
   return btoa(String.fromCharCode(...new Uint8Array(sig)));
 }
-
+ 
 async function validToken(token) {
   if (!token || !currentRoom || !_rawPass) return false;
   const expected = await makeToken(currentRoom, _rawPass);
   return token === expected;
 }
-
+ 
 /* ── 🚀 LOGIN ── */
 btnConnect.addEventListener('click', doConnect);
 inpPass.addEventListener('keydown', e => { if (e.key === 'Enter') doConnect(); });
-
+ 
 async function doConnect() {
   const room = inpRoom.value.trim();
   const pass = inpPass.value;
   if (!room || !pass) return;
   btnConnect.textContent = 'INITIALIZING CRYPTO...';
   btnConnect.disabled = true;
-
+ 
   _rawPass    = pass;
   cryptoKey   = await deriveKey(pass, room);
   authToken   = await makeToken(room, pass);
   currentRoom = room;
   uptimeStart = Date.now();
-
+ 
   loginScreen.classList.add('gone');
   appEl.style.display = '';
   roomDisp.textContent = `#${room}`;
   bcastMsg.disabled        = false;
   btnBcast.disabled        = false;
   btnBcastAttach.disabled  = false;
-
+ 
   initSocket();
   setInterval(updateUptime, 1000);
 }
-
+ 
 /* ── 🛰️ SOCKET ── */
 function initSocket() {
   socket = io(SIGNAL_URL, { transports: ['websocket'] });
-
+ 
   socket.on('connect', () => {
     myId = socket.id;
     myIdEl.textContent = short(myId);
@@ -985,37 +985,37 @@ function initSocket() {
     btnLeave.disabled = false;
     updateStats();
   });
-
+ 
   socket.on('disconnect', () => {
     cleanAll();
     logAct('SOCKET DISCONNECTED', 'r');
     btnLeave.disabled = true;
   });
-
+ 
   socket.on('auth-rejected', ({ reason }) => {
     sysMsg(`CONNECTION REJECTED: ${reason || 'invalid token'}`, 'warn');
     logAct('AUTH REJECTED BY SERVER', 'r');
   });
-
+ 
   socket.on('room-peers', async ({ peers: existing }) => {
     for (const pid of existing) {
       if (pid !== myId && !peers.has(pid)) await mkPeer(pid, true);
     }
   });
-
+ 
   socket.on('user-connected', async ({ peerId }) => {
     sysMsg(`NODE ${short(peerId)} JOINED MESH`, 'join');
     logAct(`+NODE ${short(peerId)}`, 'g');
     if (!peers.has(peerId)) await mkPeer(peerId, false);
     renderNodes(); updateStats();
   });
-
+ 
   socket.on('user-disconnected', ({ peerId }) => {
     sysMsg(`NODE ${short(peerId)} LEFT MESH`, 'leave');
     logAct(`-NODE ${short(peerId)}`, 'r');
     cleanPeer(peerId);
   });
-
+ 
   socket.on('offer', async (data) => {
     const rToken = data.token || data.auth;
     if (!await validToken(rToken)) {
@@ -1037,14 +1037,14 @@ function initSocket() {
       } catch(e) { console.error('Offer error', e); }
     }
   });
-
+ 
   socket.on('answer', async (data) => {
     const rToken = data.token || data.auth;
     if (!await validToken(rToken)) return;
     const e = peers.get(data.from);
     if (e?.pc) try { await e.pc.setRemoteDescription(new RTCSessionDescription(data.answer)); } catch(_) {}
   });
-
+ 
   socket.on('ice-candidate', async (data) => {
     const rToken = data.token || data.auth;
     if (!await validToken(rToken)) return;
@@ -1052,17 +1052,17 @@ function initSocket() {
     if (e?.pc && data.candidate) try { await e.pc.addIceCandidate(new RTCIceCandidate(data.candidate)); } catch(_) {}
   });
 }
-
+ 
 /* ── 📡 WebRTC ── */
 async function mkPeer(pid, isInit) {
   const pc    = new RTCPeerConnection({ iceServers: ICE_CONFIG });
   const entry = { pc, dc: null, audioEl: null, unread: 0, history: [] };
   peers.set(pid, entry);
-
+ 
   if (localStream) {
     localStream.getTracks().forEach(t => { try { pc.addTrack(t, localStream); } catch(_) {} });
   }
-
+ 
   pc.ontrack = ({ streams }) => {
     if (!entry.audioEl && streams?.[0]) {
       const a = document.createElement('audio');
@@ -1072,7 +1072,7 @@ async function mkPeer(pid, isInit) {
       entry.audioEl = a;
     }
   };
-
+ 
   pc.onnegotiationneeded = async () => {
     try {
       const offer = await pc.createOffer();
@@ -1080,17 +1080,17 @@ async function mkPeer(pid, isInit) {
       socket.emit('offer', { to: pid, offer, token: authToken, auth: authToken });
     } catch(e) {}
   };
-
+ 
   pc.onicecandidate = ({ candidate }) => {
     if (candidate) socket.emit('ice-candidate', { to: pid, candidate, token: authToken, auth: authToken });
   };
-
+ 
   pc.onconnectionstatechange = () => {
     renderNodes(); updateStats();
     if (pc.connectionState === 'failed' || pc.connectionState === 'closed') cleanPeer(pid);
     if (pc.connectionState === 'connected') logAct(`CHANNEL UP: ${short(pid)}`, 'g');
   };
-
+ 
   if (isInit) {
     const dc = pc.createDataChannel('sec', { ordered: true });
     dc.binaryType = 'arraybuffer';
@@ -1108,15 +1108,15 @@ async function mkPeer(pid, isInit) {
       wireDC(channel, pid);
     };
   }
-
+ 
   renderNodes(); updateStats();
   return entry;
 }
-
+ 
 function wireDC(dc, pid) {
   dc.onopen  = () => { renderNodes(); updateStats(); logAct(`DC OPEN: ${short(pid)}`, 'b'); };
   dc.onclose = () => { renderNodes(); updateStats(); };
-
+ 
   dc.onmessage = async ({ data }) => {
     if (!(data instanceof ArrayBuffer)) return;
     rxBytes += data.byteLength;
@@ -1125,14 +1125,14 @@ function wireDC(dc, pid) {
     catch(_) { logAct('DECRYPT FAILED', 'r'); return; }
     let msg;
     try { msg = JSON.parse(new TextDecoder().decode(plain)); } catch(_) { return; }
-
+ 
     // Replay Protection
     if (seenNonces.has(msg.nonce) || (Date.now() - msg.ts > 60000)) return;
     seenNonces.add(msg.nonce);
-
+ 
     const e = peers.get(pid);
     if (!e) return;
-
+ 
     if (msg.type === 'text') {
       totalMsgs++; totalPkts++;
       e.history.push({ dir: 'in', content: msg.content, ts: msg.ts });
@@ -1149,26 +1149,26 @@ function wireDC(dc, pid) {
     updateStats();
   };
 }
-
+ 
 /* ── 💬 SEND ── */
 async function sendText() {
   const text = inpMsg.value.trim();
   if (!text || !activePeer) return;
   const e = peers.get(activePeer);
   if (!e?.dc || e.dc.readyState !== 'open') { logAct('CHANNEL NOT READY', 'r'); return; }
-
+ 
   const payload = { type:'text', content:text, ts:Date.now(), nonce:crypto.randomUUID() };
   const enc = await encrypt(new TextEncoder().encode(JSON.stringify(payload)));
   e.dc.send(enc);
   txBytes += enc.byteLength;
-
+ 
   e.history.push({ dir: 'out', content: text, ts: Date.now() });
   appendMsg(text, 'out', myId);
   inpMsg.value = '';
   totalMsgs++; totalPkts++;
   updateStats();
 }
-
+ 
 async function sendBroadcast() {
   const text = bcastMsg.value.trim();
   if (!text) return;
@@ -1182,7 +1182,7 @@ async function sendBroadcast() {
   }
   if (n) { appendBcast(text, 'me'); bcastMsg.value = ''; totalPkts += n; updateStats(); }
 }
-
+ 
 /* ── FIX: sendFile — added ts + nonce to file-chunk payload ── */
 async function sendFile(file, target) {
   if (target !== 'all' && !peers.has(target)) { logAct('SELECT A NODE FIRST', 'r'); return; }
@@ -1191,7 +1191,7 @@ async function sendFile(file, target) {
   const fid    = crypto.randomUUID();
   const progId = appendPktSend(target === 'all' ? `[BCAST] ${file.name}` : file.name, file.size);
   logAct(`TX FILE: ${file.name}`, 'b');
-
+ 
   for (let i = 0; i < total; i++) {
     const chunk = buf.slice(i * CHUNK_BYTES, (i + 1) * CHUNK_BYTES);
     /* FIX: Added ts and nonce so replay protection doesn't block chunks */
@@ -1220,14 +1220,14 @@ async function sendFile(file, target) {
   }
   updateStats();
 }
-
+ 
 async function sendBroadcastFile(file) {
   let open = 0;
   peers.forEach(e => { if (e.dc?.readyState === 'open') open++; });
   if (open === 0) { sysMsg('NO ACTIVE NODES TO BROADCAST TO', 'warn'); return; }
   sendFile(file, 'all');
 }
-
+ 
 /* FIX-006: Chunk bounds validation — OOM protection */
 function handleChunk(msg, pid) {
   if (!msg.fid || typeof msg.fid !== 'string') return;
@@ -1236,16 +1236,16 @@ function handleChunk(msg, pid) {
   if (!Number.isInteger(msg.size)  || msg.size > 200 * 1024 * 1024) return;
   if (!msg.data || !Array.isArray(msg.data) || msg.data.length > CHUNK_BYTES + 100) return;
   if (typeof msg.name !== 'string' || msg.name.length > 255) return;
-
+ 
   const key = `${pid}:${msg.fid}`;
   if (!fileRx.has(key)) fileRx.set(key, { chunks:[], total:msg.total, name:msg.name, size:msg.size });
   const st = fileRx.get(key);
   if (st.total !== msg.total) { fileRx.delete(key); return; }
-
+ 
   st.chunks[msg.index] = new Uint8Array(msg.data);
   rxBytes += msg.data.length;
   totalPkts++;
-
+ 
   if (st.chunks.filter(Boolean).length === st.total) {
     fileRx.delete(key);
     let off = 0;
@@ -1256,7 +1256,7 @@ function handleChunk(msg, pid) {
   }
   updateStats();
 }
-
+ 
 /* ── 🎤 MICROPHONE ── */
 micBlock.addEventListener('click', async () => {
   if (!micOn) {
@@ -1288,14 +1288,14 @@ micBlock.addEventListener('click', async () => {
     }
   }
 });
-
+ 
 function stopMic() {
   if (localStream) { localStream.getTracks().forEach(t => t.stop()); localStream = null; }
   micOn = false;
   micBlock.className = 'mic-block off';
   micTxt.textContent = 'MIC OFFLINE';
 }
-
+ 
 /* ── 🧹 CLEANUP ── */
 function cleanPeer(pid) {
   const e = peers.get(pid);
@@ -1307,12 +1307,12 @@ function cleanPeer(pid) {
   if (activePeer === pid) { activePeer = null; resetConsole(); }
   renderNodes(); updateStats();
 }
-
+ 
 function cleanAll() {
   [...peers.keys()].forEach(cleanPeer);
   stopMic(); renderNodes(); updateStats();
 }
-
+ 
 /* ── 🖥️ UI & EVENTS ── */
 function renderNodes() {
   nodesScroll.innerHTML = '';
@@ -1338,12 +1338,12 @@ function renderNodes() {
   });
   $('n-count').textContent = peers.size;
 }
-
+ 
 function peerState(e) {
   if (!e.pc) return 'failed';
   return { connected:'connected', connecting:'connecting', new:'connecting' }[e.pc.connectionState] || 'failed';
 }
-
+ 
 function selectPeer(pid) {
   activePeer = pid;
   const e    = peers.get(pid);
@@ -1359,7 +1359,7 @@ function selectPeer(pid) {
     renderNodes();
   }
 }
-
+ 
 function resetConsole() {
   chTarget.textContent   = 'SELECT NODE';
   inpMsg.disabled        = true;
@@ -1372,48 +1372,48 @@ function resetConsole() {
     consoleMsgs.prepend(d);
   }
 }
-
+ 
 function appendMsg(text, dir, fromId) {
   $('terminal-idle')?.remove();
   const row = document.createElement('div');
   row.className = `cmd-row ${dir}`;
-
+ 
   const bubble = document.createElement('div');
   bubble.className = 'cmd-bubble';
-
+ 
   const meta = document.createElement('div');
   meta.className = 'cmd-meta';
   meta.textContent = `${dir === 'in' ? short(fromId) + ' RX' : 'TX'} · ${ts()}`;
-
+ 
   const content = document.createElement('div');
   content.textContent = text;
-
+ 
   bubble.appendChild(meta);
   bubble.appendChild(content);
   row.appendChild(bubble);
-
+ 
   consoleMsgs.appendChild(row);
   consoleMsgs.scrollTop = consoleMsgs.scrollHeight;
 }
-
+ 
 function appendBcast(text, fromId) {
   $('terminal-idle')?.remove();
   const d = document.createElement('div');
   d.className = 'bcast-msg';
-
+ 
   const hdr = document.createElement('div');
   hdr.className = 'bcast-hdr';
   hdr.textContent = `${fromId==='me'?'TX':'RX'} BROADCAST · ${ts()}`;
-
+ 
   const content = document.createElement('div');
   content.textContent = text;
-
+ 
   d.appendChild(hdr);
   d.appendChild(content);
   consoleMsgs.appendChild(d);
   consoleMsgs.scrollTop = consoleMsgs.scrollHeight;
 }
-
+ 
 function sysMsg(text, cls = '') {
   $('terminal-idle')?.remove();
   const d = document.createElement('div');
@@ -1422,14 +1422,14 @@ function sysMsg(text, cls = '') {
   consoleMsgs.appendChild(d);
   consoleMsgs.scrollTop = consoleMsgs.scrollHeight;
 }
-
+ 
 let pktCtr = 0;
 function appendPktSend(name, size) {
   $('terminal-idle')?.remove();
   const id  = `pkt${++pktCtr}`;
   const row = document.createElement('div');
   row.className = 'pkt-row out'; row.id = id;
-
+ 
   row.innerHTML = `
     <div class="data-packet">
       <div class="pkt-head"><span class="pkt-type-tag">TX PACKET</span><span class="pkt-ts">${ts()}</span></div>
@@ -1439,13 +1439,13 @@ function appendPktSend(name, size) {
       </div>
       <div class="pkt-progress"><div class="pkt-progress-fill" style="width:0%"></div></div>
     </div>`;
-
+ 
   row.querySelector('.pkt-name').textContent = name;
   consoleMsgs.appendChild(row);
   consoleMsgs.scrollTop = consoleMsgs.scrollHeight;
   return id;
 }
-
+ 
 function updatePktProg(id, ratio) {
   const fill = document.querySelector(`#${id} .pkt-progress-fill`);
   if (fill) fill.style.width = `${Math.round(ratio * 100)}%`;
@@ -1454,7 +1454,7 @@ function updatePktProg(id, ratio) {
     if (det) det.textContent = '— TRANSMITTED ✓';
   }
 }
-
+ 
 function appendPktRecv(name, size, buffer, fromId) {
   $('terminal-idle')?.remove();
   const id   = `pkt-rx-${++pktCtr}`;
@@ -1462,7 +1462,7 @@ function appendPktRecv(name, size, buffer, fromId) {
   const url  = URL.createObjectURL(blob);
   const row  = document.createElement('div');
   row.className = 'pkt-row in';
-
+ 
   row.innerHTML = `
     <div class="data-packet" id="${id}">
       <div class="pkt-head"><span class="pkt-type-tag" style="background:var(--c-green)">RX PACKET</span><span class="pkt-ts">← ${short(fromId)} · ${ts()}</span></div>
@@ -1471,18 +1471,18 @@ function appendPktRecv(name, size, buffer, fromId) {
         <div class="pkt-info"><div class="pkt-name"></div><div class="pkt-detail">${fmtSz(size)} · לחץ להורדה</div></div>
       </div>
     </div>`;
-
+ 
   row.querySelector('.pkt-name').textContent = name;
   consoleMsgs.appendChild(row);
   consoleMsgs.scrollTop = consoleMsgs.scrollHeight;
-
+ 
   document.getElementById(id).addEventListener('click', () => {
     const a = document.createElement('a');
     a.href = url; a.download = name;
     document.body.appendChild(a); a.click(); document.body.removeChild(a);
   });
 }
-
+ 
 function logAct(msg, cls = '') {
   const d = document.createElement('div');
   d.className = 'act-entry';
@@ -1498,7 +1498,7 @@ function logAct(msg, cls = '') {
   actLog.scrollTop = actLog.scrollHeight;
   while (actLog.children.length > 80) actLog.removeChild(actLog.firstChild);
 }
-
+ 
 function updateStats() {
   let open = 0;
   peers.forEach(e => { if (e.dc?.readyState === 'open') open++; });
@@ -1511,7 +1511,7 @@ function updateStats() {
   $('lm-tx').textContent    = fmtSz(txBytes);
   $('lm-rx').textContent    = fmtSz(rxBytes);
 }
-
+ 
 function updateUptime() {
   if (!uptimeStart) return;
   const s  = Math.floor((Date.now() - uptimeStart) / 1000);
@@ -1520,42 +1520,43 @@ function updateUptime() {
   const ss = String(s % 60).padStart(2, '0');
   $('lm-up').textContent = `${h}:${m}:${ss}`;
 }
-
+ 
 btnSend.addEventListener('click', sendText);
 inpMsg.addEventListener('keydown', e => { if (e.key === 'Enter') sendText(); });
 btnBcast.addEventListener('click', sendBroadcast);
 bcastMsg.addEventListener('keydown', e => { if (e.key === 'Enter') sendBroadcast(); });
-
+ 
 btnAttach.addEventListener('click', () => fileInput.click());
 fileInput.addEventListener('change', () => {
   if (fileInput.files[0]) sendFile(fileInput.files[0], activePeer);
   fileInput.value = '';
 });
-
+ 
 btnBcastAttach.addEventListener('click', () => bcastFileInput.click());
 bcastFileInput.addEventListener('change', () => {
   if (bcastFileInput.files[0]) sendBroadcastFile(bcastFileInput.files[0]);
   bcastFileInput.value = '';
 });
-
+ 
 btnLeave.addEventListener('click', () => {
   if (socket) socket.emit('leave-room', { room: currentRoom });
   cleanAll();
   loginScreen.classList.remove('gone');
   appEl.style.display    = 'none';
-
+ 
   currentRoom = null; authToken = null; cryptoKey = null; _rawPass = null;
-
+ 
   btnConnect.textContent   = '⚡ INITIATE SECURE CONNECTION';
   btnConnect.disabled      = false;
   bcastMsg.disabled        = true;
   btnBcast.disabled        = true;
   btnBcastAttach.disabled  = true;
 });
-
+ 
 const short = id  => id ? id.substring(0, 8) : '????????';
 const ts    = ()  => new Date().toLocaleTimeString('he-IL', { hour12: false });
 const fmtSz = b   => b > 1e9 ? `${(b/1e9).toFixed(2)} GB` : b > 1e6 ? `${(b/1e6).toFixed(1)} MB` : b > 1e3 ? `${(b/1e3).toFixed(0)} KB` : `${b} B`;
 </script>
 </body>
 </html>
+ 
