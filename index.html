@@ -22,7 +22,7 @@
   --font-mono: 'Share Tech Mono', monospace; --font-ui: 'Rajdhani', sans-serif; --font-display: 'Orbitron', monospace;
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html,body{width:100%;height:100%;overflow:hidden;background:var(--bg-void);color:var(--txt-hi);font-family:var(--font-ui);font-size:16px;cursor:crosshair}
+html,body{width:100%;height:100vh;overflow-y:auto;overflow-x:hidden;background:var(--bg-void);color:var(--txt-hi);font-family:var(--font-ui);font-size:16px;cursor:crosshair}
 #file-input,#bcast-file-input{display:none!important;visibility:hidden;position:absolute;z-index:-999;width:0;height:0}
 .world{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
 .grid-layer{position:absolute;inset:-100px;background-image:linear-gradient(rgba(0,210,255,0.05) 1px,transparent 1px),linear-gradient(90deg,rgba(0,210,255,0.05) 1px,transparent 1px);background-size:50px 50px;animation:grid-move 25s linear infinite}
@@ -52,7 +52,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--bg-void);color
 .enc-note{display:flex;align-items:flex-start;gap:10px;background:var(--c-green-dim);border:1px solid rgba(0,255,136,0.3);padding:14px 18px;margin-bottom:28px;font-family:var(--font-mono);font-size:13px;color:var(--c-green)}
 .tac-btn{width:100%;padding:18px 24px;background:transparent;border:1px solid var(--border-hi);color:var(--c-blue);font-family:var(--font-display);font-size:16px;font-weight:700;letter-spacing:4px;cursor:pointer;text-transform:uppercase;transition:all .15s}
 .tac-btn:hover{box-shadow:0 0 24px var(--c-blue-glow);background:rgba(0,210,255,0.08)}
-#app{position:relative;z-index:1;display:grid;grid-template-rows:70px 1fr;grid-template-columns:460px 1fr 400px;width:100%;height:100%;gap:2px;background:var(--border-dim)}
+#app{position:relative;z-index:1;display:grid;grid-template-rows:70px 1fr;grid-template-columns:460px 1fr 400px;width:100%;height:100vh;min-height:700px;gap:2px;background:var(--border-dim)}
 .topbar{grid-column:1 / -1;background:rgba(2,8,18,0.95);backdrop-filter:blur(20px);border-bottom:1px solid var(--border-mid);display:flex;align-items:center;justify-content:space-between;padding:0 28px;position:relative}
 .topbar::after{content:'';position:absolute;bottom:-1px;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent 0%,var(--c-blue) 20%,var(--c-green) 50%,var(--c-blue) 80%,transparent 100%);opacity:0.7}
 .brand{display:flex;align-items:center;gap:18px}
@@ -745,7 +745,7 @@ async function sendFile(file, target) {
 
   for (let i = 0; i < total; i++) {
     const chunk = buf.slice(i * CHUNK_BYTES, (i + 1) * CHUNK_BYTES);
-    const msg   = { type:'file-chunk', fid, index:i, total, name:file.name, size:file.size, data:Array.from(new Uint8Array(chunk)) };
+    const msg   = { type:'file-chunk', fid, index:i, total, name:file.name, size:file.size, data:Array.from(new Uint8Array(chunk)), ts:Date.now(), nonce:crypto.randomUUID() };
     const enc   = await encrypt(new TextEncoder().encode(JSON.stringify(msg)));
     let sent = 0;
     if (target === 'all') {
